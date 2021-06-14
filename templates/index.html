@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./style.css">
     <title>Kanban</title>
 </head>
@@ -58,7 +59,10 @@
             <div class="card">
                 <header class="card-header has-background-warning">
                     <p class="card-header-title">
-                        BACKLOG
+                        <span class="icon">
+                            <i class="fas fa-thumbtack"></i>
+                        </span>
+                        <span>BACKLOG</span>
                     </p>
                 </header>
                 <div class="card-content">
@@ -79,17 +83,27 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item">Delete</a>
-                    <div class="card-footer-item select is-primary">
-                        <select>
-                            <option value="">Todo</option>
-                            <option value="">Doing</option>
-                            <option value="">Done</option>
-                        </select>
-                    </div>
-                </footer>
-                <div class="is-devider"></div>
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer>                                                                                                
+            </div>
+            <div class="is-devider"><br></div>            
+            <div class="card">
                 <div class="card-content">
                     <div class="media">
                         <div class="media-left">
@@ -98,8 +112,8 @@
                             </figure>
                         </div>
                         <div class="media-content">
-                            <p class="title is-4">Jhon Smith</p>
-                            <p class="subtitle is-6">jhonsmith@mail.com</p>
+                            <p class="title is-4">Jhon Doe</p>
+                            <p class="subtitle is-6">jhondoe@mail.com</p>
                         </div>
                     </div>
                     <div class="content">
@@ -108,17 +122,27 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item">Delete</a>
-                    <div class="card-footer-item select is-primary">
-                        <select>
-                            <option value="">Todo</option>
-                            <option value="">Doing</option>
-                            <option value="">Done</option>
-                        </select>
-                    </div>
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
                 </footer>
-                <div class="is-devider"></div>
+            </div>
+            <div class="is-devider"><br></div>  
+            <div class="card">
                 <div class="card-content">
                     <div class="media">
                         <div class="media-left">
@@ -127,8 +151,8 @@
                             </figure>
                         </div>
                         <div class="media-content">
-                            <p class="title is-4">Jhon Smith</p>
-                            <p class="subtitle is-6">jhonsmith@mail.com</p>
+                            <p class="title is-4">Jhon Bonham</p>
+                            <p class="subtitle is-6">bonhamjoe@mail.com</p>
                         </div>
                     </div>
                     <div class="content">
@@ -137,44 +161,250 @@
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item">Delete</a>
-                    <div class="card-footer-item select is-primary">
-                        <select>
-                            <option value="">Todo</option>
-                            <option value="">Doing</option>
-                            <option value="">Done</option>
-                        </select>
-                    </div>
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
                 </footer>
             </div>
         </div>
+
         <div class="column is-3">
             <div class="card">
                 <header class="card-header has-background-info-dark">
-                    <p class="card-header-title has-text-white">
-                        TODO
+                    <p class="card-header-title">
+                        <span class="icon">
+                            <i class="fas fa-thumbtack"></i>
+                        </span>
+                        <span>TODO</span>
                     </p>
                 </header>
-            </div>            
-        </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">Jhon Basch</p>
+                            <p class="subtitle is-6">baschjhon@mail.com</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.<br>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer> 
+            </div>
+            <div class="is-devider"><br></div>
+            <div class="card">                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">Jhon Thor</p>
+                            <p class="subtitle is-6">thorthejhon@mail.com</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.<br>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer> 
+            </div>
+        </div>                    
+
         <div class="column is-3">
             <div class="card">
                 <header class="card-header has-background-success">
                     <p class="card-header-title">
-                        DOING
+                        <span class="icon">
+                            <i class="fas fa-thumbtack"></i>
+                        </span>
+                        <span>DOING</span>
                     </p>
-                </header>                
+                </header>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">Jhon Bhob</p>
+                            <p class="subtitle is-6">Bhobandjhon@mail.com</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.<br>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer>                            
             </div>            
         </div>
+
         <div class="column is-3">
             <div class="card">
                 <header class="card-header has-background-danger">
                     <p class="card-header-title">
-                        DONE
+                        <span class="icon">
+                            <i class="fas fa-thumbtack"></i>
+                        </span>
+                        <span>DONE</span>
                     </p>
                 </header>
-            </div>            
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">Jhon Travolta</p>
+                            <p class="subtitle is-6">travolta@mail.com</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.<br>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer>
+            </div>
+            <div class="is-devider"><br></div>
+            <div class="card">                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">Jhon Cenaaaaaaa</p>
+                            <p class="subtitle is-6">cena@mail.com</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Phasellus nec iaculis mauris. <a>@bulmaio</a>.<br>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <div class="card-footer-item field is-grouped">
+                        <p class="control">
+                            <a href="#" class="button is-link">Edit</a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-danger">Delete</a>
+                        </p>
+                        <p class="control">
+                            <div class="select is-link">
+                                <select>
+                                    <option value="">Todo</option>
+                                    <option value="">Doing</option>
+                                    <option value="">Done</option>
+                                </select>
+                            </div>
+                        </p>
+                    </div>                                        
+                </footer>
+            </div>
         </div>
     </div>
 </body>

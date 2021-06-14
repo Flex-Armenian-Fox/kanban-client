@@ -9,7 +9,7 @@
   </head>
   <body class="text-gray-600">
     <div>
-      <div class="bg-gray-200">
+      <div class="bg-gray-100">
         <nav class="flex justify-between items-center p-1 mx-3">
           <div>
             <h1>
@@ -28,23 +28,94 @@
               </a>
             </li>
           </ul>
-          <div class="text-lg">
-            <span>Log Out</span>
+          <div class="text-lg w-36 text-right">
+            <span><a href="">Log Out</a></span>
           </div>
         </nav>
       </div>
 
       <main>
+        <div class="grid grid-cols-4 gap-6 m-4">
           <div>
-            <!-- cards go here -->
-            <div>
-              <!-- <img src="img/stew.jpg" alt="stew" />
-              <div>
-                <span>5 Bean Chili Stew</span>
-                <span>Recipe by Mario</span>
-              </div> -->
+            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
+              <span class="font-semibold">Backlog</span>
+              <!-- tasks go here -->
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Learning TailwindCSS</span>
+              </div>
+
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Learning VueJS</span>
+              </div>
+
+              <!-- add task -->
+              <div class="pb-2 text-sm text-gray-500 w-full">
+                <span>Add new task...</span>
+              </div>
             </div>
           </div>
+
+          <div>
+            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
+              <span class="font-semibold">Todo</span>
+              <!-- tasks go here -->
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Todo 1</span>
+              </div>
+
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Todo 2</span>
+              </div>
+
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Todo 3</span>
+              </div>
+
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Todo 4</span>
+              </div>
+
+              <!-- add task -->
+              <div class="pb-2 text-sm text-gray-500 w-full">
+                <span>Add new task...</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
+              <span class="font-semibold">Doing</span>
+              <!-- tasks go here -->
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Make HTML template</span>
+              </div>
+
+              <!-- add task -->
+              <div class="pb-2 text-sm text-gray-500 w-full">
+                <span>Add new task...</span>
+              </div>
+            </div>
+          </div>  
+
+          <div>
+            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
+              <span class="font-semibold">Done</span>
+              <!-- tasks go here -->
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Make kanban server</span>
+              </div>
+
+              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
+                <span>Make API documentation</span>
+              </div>
+
+              <!-- add task -->
+              <div class="pb-2 text-sm text-gray-500 w-full">
+                <span>Add new task...</span>
+              </div>
+            </div>
+          </div>
+        </div>
           <div>
             <!-- cards go here -->
           </div>

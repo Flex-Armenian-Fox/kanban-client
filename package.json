@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "kanban-client",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "npx tailwindcss-cli@latest build ./src/tailwind.css -o ./public/tailwind.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anggidast/kanban-client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anggidast/kanban-client/issues"
+  },
+  "homepage": "https://github.com/anggidast/kanban-client#readme",
+  "dependencies": {
+    "tailwindcss": "^2.1.4"
+  },
+  "devDependencies": {
+    "stylelint-config-recommended": "^5.0.0"
+  }
+}

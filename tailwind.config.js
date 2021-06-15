@@ -6,6 +6,11 @@ module.exports = {
       fontFamily: {
         nunito: ['Nunito'],
       },
+      maxHeight: (theme) => ({
+        ...theme('spacing'),
+        full: '100%',
+        screen: '87vh',
+      }),
     },
   },
   variants: {

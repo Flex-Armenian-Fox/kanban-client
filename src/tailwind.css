@@ -9,9 +9,9 @@
 }
 
 .content-info {
-  @apply pt-1 text-sm text-gray-500 flex justify-between border-t border-gray-300;
+  @apply pt-1 text-sm text-gray-500 flex justify-between border-t border-gray-300 items-center;
 }
 
 .card {
-  @apply border rounded-lg shadow-lg px-3 pt-2;
+  @apply border rounded-lg shadow-lg px-3 pt-2 overflow-y-auto max-h-screen;
 }

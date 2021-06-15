@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="tailwind.css" />
     <title>Tola-Telo</title>
   </head>
-  <body class="text-gray-600">
+
+  <body class="text-gray-600 bg-gray-50 font-nunito">
     <div>
-      <div class="bg-gray-100">
+      <div class="bg-indigo-100 border-b border-gray-200">
         <nav class="flex justify-between items-center p-1 mx-3">
           <div>
             <h1>
@@ -22,102 +23,134 @@
                 <span>Home</span>
               </a>
             </li>
-            <li class="text-gray-700 font-semibold ml-4">
+            <li class="text-gray-700 font-semibold ml-4 border-b-2 border-red-300">
               <a href="#">
                 <span>Task</span>
               </a>
             </li>
           </ul>
           <div class="text-lg w-36 text-right">
-            <span><a href="">Log Out</a></span>
+            <span class="bg-red-300 px-2 py-0.5 rounded-lg border-red-500"><a href="">Log Out</a></span>
           </div>
         </nav>
       </div>
 
-      <main>
+      <main class="">
         <div class="grid grid-cols-4 gap-6 m-4">
-          <div>
-            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
+          <div class="container">
+            <div class="bg-gray-300 border-gray-300 card">
               <span class="font-semibold">Backlog</span>
               <!-- tasks go here -->
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Learning TailwindCSS</span>
+              <div class="content">
+                <p class="pb-1">Learning TailwindCSS</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Learning VueJS</span>
+              <div class="content">
+                <p class="pb-1">Learning VueJS</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
               <!-- add task -->
               <div class="pb-2 text-sm text-gray-500 w-full">
-                <span>Add new task...</span>
+                <p>Add new task . . .</p>
               </div>
             </div>
           </div>
 
-          <div>
-            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
-              <span class="font-semibold">Todo</span>
+          <div class="container">
+            <div class="bg-yellow-200 border-yellow-200 card">
+              <p class="font-semibold">Todo</p>
               <!-- tasks go here -->
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Todo 1</span>
+              <div class="content">
+                <p class="pb-1">Todo 1</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Todo 2</span>
+              <div class="content">
+                <p class="pb-1">Todo 2</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Todo 3</span>
+              <div class="content">
+                <p class="pb-1">Todo 3</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Todo 4</span>
+              <div class="content">
+                <p class="pb-1">Todo 4</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
               <!-- add task -->
               <div class="pb-2 text-sm text-gray-500 w-full">
-                <span>Add new task...</span>
+                <p>Add new task . . .</p>
               </div>
             </div>
           </div>
 
-          <div>
-            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
-              <span class="font-semibold">Doing</span>
+          <div class="container">
+            <div class="bg-blue-300 border-blue-300 card">
+              <p class="font-semibold">Doing</p>
               <!-- tasks go here -->
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Make HTML template</span>
+              <div class="content">
+                <p class="pb-1">Make HTML template</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
               </div>
 
               <!-- add task -->
               <div class="pb-2 text-sm text-gray-500 w-full">
-                <span>Add new task...</span>
-              </div>
-            </div>
-          </div>  
-
-          <div>
-            <div class="bg-gray-200 border rounded-lg border-gray-300 shadow-md px-3 pt-2">
-              <span class="font-semibold">Done</span>
-              <!-- tasks go here -->
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Make kanban server</span>
-              </div>
-
-              <div class="bg-gray-50 border rounded-lg px-2 py-1 my-2">
-                <span>Make API documentation</span>
-              </div>
-
-              <!-- add task -->
-              <div class="pb-2 text-sm text-gray-500 w-full">
-                <span>Add new task...</span>
+                <p>Add new task . . .</p>
               </div>
             </div>
           </div>
-        </div>
-          <div>
-            <!-- cards go here -->
+
+          <div class="container">
+            <div class="bg-green-400 border-green-400 card">
+              <p class="font-semibold">Done</p>
+              <!-- tasks go here -->
+              <div class="content">
+                <p class="pb-1">Make kanban server</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
+              </div>
+
+              <div class="content">
+                <p class="pb-1">Make API documentation</p>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <p>15-Jun</p>
+                </div>
+              </div>
+
+              <!-- add task -->
+              <div class="pb-2 text-sm text-gray-500 w-full">
+                <p>Add new task . . .</p>
+              </div>
+            </div>
           </div>
         </div>
       </main>

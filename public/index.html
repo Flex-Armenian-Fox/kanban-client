@@ -41,7 +41,7 @@
             <div class="bg-gray-300 border-gray-300 card">
               <div class="flex justify-between">
                 <p class="font-semibold">Backlog</p>
-                <a @click.prevent="addCard = true" v-if="!addCard" href="">
+                <a @click.prevent="addBacklog = true" v-if="!addBacklog" href="">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <title>Add task</title>
@@ -49,19 +49,20 @@
                 </a>
               </div>
               <!-- tasks go here -->
-              <!-- <div class="content">
+
+              <div v-for="task in tasks.backlog" class="content">
                 <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
+                  <a @click.prevent="moveTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </a>
                 </div>
-                <p class="pb-1">Learning TailwindCSS</p>
+                <p class="pb-1">{{task.title}}</p>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="deleteTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -74,39 +75,14 @@
                 </div>
               </div>
 
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Learning VueJS</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div> -->
-
               <!-- new task -->
-              <div v-if="addCard" class="content border border-gray-500 mb-3">
+              <div v-if="addBacklog" class="content border border-gray-500 mb-3">
                 <!-- <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">{{ today }}</p>
                 </div> -->
-                <form class="pb-1 flex justify-between" action="">
-                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" />
-                  <button @click="addTask('backlog')">
+                <form @submit.prevent="addTask('backlog')" class="pb-1 flex justify-between" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" required />
+                  <button type="submit">
                     <a href="">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -116,7 +92,7 @@
                 </form>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a @click.prevent="addCard = false" href="">
+                  <a @click.prevent="addBacklog = false" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -130,7 +106,7 @@
               </div>
 
               <!-- add task -->
-              <div @click.prevent="addCard = true" v-if="!addCard" class="add">
+              <div @click.prevent="addBacklog = true" v-if="!addBacklog" class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -140,7 +116,7 @@
             <div class="bg-yellow-200 border-yellow-200 card">
               <div class="flex justify-between">
                 <p class="font-semibold">Todo</p>
-                <a href="">
+                <a @click.prevent="addTodo = true" v-if="!addTodo" href="">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <title>Add task</title>
@@ -148,19 +124,20 @@
                 </a>
               </div>
               <!-- tasks go here -->
-              <div class="content">
+
+              <div v-for="task in tasks.todo" class="content">
                 <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
+                  <a @click.prevent="moveTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </a>
                 </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
+                <p class="pb-1">{{task.title}}</p>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="deleteTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -173,169 +150,24 @@
                 </div>
               </div>
 
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
+              <!-- new task -->
+              <div v-if="addTodo" class="content border border-gray-500 mb-3">
+                <!-- <div class="flex justify-between items-center">
+                  <p class="text-xs text-gray-500">{{ today }}</p>
+                </div> -->
+                <form @submit.prevent="addTask('todo')" class="pb-1 flex justify-between" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" required />
+                  <button type="submit">
+                    <a href="">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </button>
+                </form>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Lorem, ipsum dolor.</p>
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="addTodo = false" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -349,7 +181,7 @@
               </div>
 
               <!-- add task -->
-              <div class="add">
+              <div @click.prevent="addTodo = true" v-if="!addTodo" class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -359,7 +191,7 @@
             <div class="bg-blue-300 border-blue-300 card">
               <div class="flex justify-between">
                 <p class="font-semibold">Doing</p>
-                <a href="">
+                <a @click.prevent="addDoing = true" v-if="!addDoing" href="">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <title>Add task</title>
@@ -367,19 +199,50 @@
                 </a>
               </div>
               <!-- tasks go here -->
-              <div class="content">
+
+              <div v-for="task in tasks.doing" class="content">
                 <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
+                  <a @click.prevent="moveTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </a>
                 </div>
-                <p class="pb-1">Make HTML template</p>
+                <p class="pb-1">{{task.title}}</p>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="deleteTask(task.title, task.category)" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- new task -->
+              <div v-if="addDoing" class="content border border-gray-500 mb-3">
+                <!-- <div class="flex justify-between items-center">
+                  <p class="text-xs text-gray-500">{{ today }}</p>
+                </div> -->
+                <form @submit.prevent="addTask('doing')" class="pb-1 flex justify-between" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" required />
+                  <button type="submit">
+                    <a href="">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </button>
+                </form>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <a @click.prevent="addDoing = false" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -393,7 +256,7 @@
               </div>
 
               <!-- add task -->
-              <div class="add">
+              <div @click.prevent="addDoing = true" v-if="!addDoing" class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -403,7 +266,7 @@
             <div class="bg-green-400 border-green-400 card">
               <div class="flex justify-between">
                 <p class="font-semibold">Done</p>
-                <a href="">
+                <a @click.prevent="addDone = true" v-if="!addDone" href="">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <title>Add task</title>
@@ -411,19 +274,20 @@
                 </a>
               </div>
               <!-- tasks go here -->
-              <div class="content">
+
+              <div v-for="task in tasks.done" class="content">
                 <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
+                  <a @click.prevent="moveTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                   </a>
                 </div>
-                <p class="pb-1">Make kanban server</p>
+                <p class="pb-1">{{task.title}}</p>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="deleteTask(task.title, task.category)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -436,19 +300,24 @@
                 </div>
               </div>
 
-              <div class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <a href="">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </a>
-                </div>
-                <p class="pb-1">Make API documentation</p>
+              <!-- new task -->
+              <div v-if="addDone" class="content border border-gray-500 mb-3">
+                <!-- <div class="flex justify-between items-center">
+                  <p class="text-xs text-gray-500">{{ today }}</p>
+                </div> -->
+                <form @submit.prevent="addTask('done')" class="pb-1 flex justify-between" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" required />
+                  <button type="submit">
+                    <a href="">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </button>
+                </form>
                 <div class="content-info">
                   <p>anggi</p>
-                  <a href="">
+                  <a @click.prevent="addDone = false" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         stroke-linecap="round"
@@ -462,7 +331,7 @@
               </div>
 
               <!-- add task -->
-              <div class="add">
+              <div @click.prevent="addDone = true" v-if="!addDone" class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>

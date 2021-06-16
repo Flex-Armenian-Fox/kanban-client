@@ -46,7 +46,7 @@
         </section>
         <!-- END LOGIN PAGE -->
         
-        <section v-else-if="isLogin">
+        <section v-else="isLogin">
             <!-- START NAVBAR -->
             <section>
                 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -61,14 +61,14 @@
             
                     <div id="navbarBasicExample" class="navbar-menu">
                         <div class="navbar-start">
-                            <a class="navbar-item">Home</a>
+                            <a @click="isData = true" class="navbar-item">Home</a>
                             <a href="https://github.com/antonprio/kanban-server/blob/master/API%20Doc.md" target="_blank"
                                 class="navbar-item">API Documentation</a>
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="navbar-link">More</a>
             
                                 <div class="navbar-dropdown">
-                                    <a class="navbar-item">Add Task</a>
+                                    <a @click="isData = false" class="navbar-item">Add Task</a>
                                     <a class="navbar-item">My Task</a>
                                 </div>
                             </div>
@@ -88,206 +88,262 @@
     
             <!-- START CONTENT -->
             <section>
-                <div class="columns is-flex is-justify-content-center">
-                    <div class="column is-full">
-                        <h2 class="is-size-3 has-text-weight-light has-text-white">
-                            <center>Kanban Board</center>
-                        </h2>
-                    </div>        
-                </div>
-                <div class="columns">
-                    <div class="column is-3">
-                        <header class="card-header has-background-warning">
-                            <p class="card-header-title">
-                                <span class="icon">
-                                    <i class="fas fa-thumbtack"></i>
-                                </span>
-                                <span>BACKLOG</span>
-                            </p>
-                        </header>                        
-                        <div v-for="item in backlogs" :key="item.id" class="card mb-3">
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-4">{{item.fullname}}</p>
-                                        <p class="subtitle is-6">{{item.email}}</p>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    {{item.task_detail}}<br>
-                                </div>
-                            </div>
-                            <footer class="card-footer">
-                                <div class="card-footer-item field is-grouped">
-                                    <p class="control">
-                                        <a href="#" class="button is-link">Edit</a>
-                                    </p>
-                                    <p class="control">
-                                        <a href="#" class="button is-danger">Delete</a>
-                                    </p>
-                                    <p class="control">
-                                        <div class="select is-link">
-                                            <select>
-                                                <option value="">Todo</option>
-                                                <option value="">Doing</option>
-                                                <option value="">Done</option>
-                                            </select>
-                                        </div>
-                                    </p>
-                                </div>                                        
-                            </footer>
-                        </div>                        
-                    </div>
-            
-                    <div class="column is-3">
-                        <header class="card-header has-background-info-dark">
-                            <p class="card-header-title">
-                                <span class="icon">
-                                    <i class="fas fa-thumbtack"></i>
-                                </span>
-                                <span>TODO</span>
-                            </p>
-                        </header>
-                        <div v-for="item in todos" :key="item.id" class="card mb-3">
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-4">{{item.fullname}}</p>
-                                        <p class="subtitle is-6">{{item.email}}</p>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    {{item.task_detail}}.<br>
-                                </div>
-                            </div>
-                            <footer class="card-footer">
-                                <div class="card-footer-item field is-grouped">
-                                    <p class="control">
-                                        <a href="#" class="button is-link">Edit</a>
-                                    </p>
-                                    <p class="control">
-                                        <a href="#" class="button is-danger">Delete</a>
-                                    </p>
-                                    <p class="control">
-                                        <div class="select is-link">
-                                            <select>
-                                                <option value="">Todo</option>
-                                                <option value="">Doing</option>
-                                                <option value="">Done</option>
-                                            </select>
-                                        </div>
-                                    </p>
-                                </div>                                        
-                            </footer> 
+                <div class="columns is-flex-direction-column is-align-items-stretch is-justify-content-center">
+                    <div v-if="isData" class="column is-full">
+                        <div class="mb-4">
+                            <h2 class="is-size-3 has-text-weight-light has-text-white">
+                                <center>Kanban Board</center>
+                            </h2>
                         </div>
-                        <div class="is-devider"><br></div>                        
-                    </div>                    
-            
-                    <div class="column is-3">
-                        <header class="card-header has-background-success">
-                            <p class="card-header-title">
-                                <span class="icon">
-                                    <i class="fas fa-thumbtack"></i>
-                                </span>
-                                <span>DOING</span>
-                            </p>
-                        </header>
-                        <div v-for="item in doings" :key="item.id" class="card mb-3">
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-4">{{item.fullname}}</p>
-                                        <p class="subtitle is-6">{{item.email}}</p>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    {{item.task_detail}}.<br>
-                                </div>
-                            </div>
-                            <footer class="card-footer">
-                                <div class="card-footer-item field is-grouped">
-                                    <p class="control">
-                                        <a href="#" class="button is-link">Edit</a>
+                        <div class="columns">
+                            <div class="column is-3">
+                                <header class="card-header has-background-warning">
+                                    <p class="card-header-title">
+                                        <span class="icon">
+                                            <i class="fas fa-thumbtack"></i>
+                                        </span>
+                                        <span>BACKLOG</span>
                                     </p>
-                                    <p class="control">
-                                        <a href="#" class="button is-danger">Delete</a>
-                                    </p>
-                                    <p class="control">
-                                        <div class="select is-link">
-                                            <select>
-                                                <option value="">Todo</option>
-                                                <option value="">Doing</option>
-                                                <option value="">Done</option>
-                                            </select>
+                                </header>                        
+                                <div v-for="item in backlogs" :key="item.id" class="card mb-3">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{item.fullname}}</p>
+                                                <p class="subtitle is-6">{{item.email}}</p>
+                                            </div>
                                         </div>
-                                    </p>
-                                </div>                                        
-                            </footer>                            
-                        </div>            
-                    </div>
-            
-                    <div class="column is-3">
-                        <header class="card-header has-background-danger">
-                            <p class="card-header-title">
-                                <span class="icon">
-                                    <i class="fas fa-thumbtack"></i>
-                                </span>
-                                <span>DONE</span>
-                            </p>
-                        </header>
-                        <div v-for="item in dones" :key="item.id" class="card mb-3">
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <figure class="image is-48x48">
-                                            <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <p class="title is-4">{{item.fullname}}</p>
-                                        <p class="subtitle is-6">{{item.email}}</p>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    {{item.task_detail}}.<br>
-                                </div>
-                            </div>
-                            <footer class="card-footer">
-                                <div class="card-footer-item field is-grouped">
-                                    <p class="control">
-                                        <a href="#" class="button is-link">Edit</a>
-                                    </p>
-                                    <p class="control">
-                                        <a href="#" class="button is-danger">Delete</a>
-                                    </p>
-                                    <p class="control">
-                                        <div class="select is-link">
-                                            <select>
-                                                <option value="">Todo</option>
-                                                <option value="">Doing</option>
-                                                <option value="">Done</option>
-                                            </select>
+                                        <div class="content">
+                                            {{item.task_detail}}<br>
                                         </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <div class="card-footer-item field is-grouped">
+                                            <p class="control">
+                                                <a href="#" class="button is-link">Edit</a>
+                                            </p>
+                                            <p class="control">
+                                                <a href="#" class="button is-danger">Delete</a>
+                                            </p>
+                                            <p class="control">
+                                                <div class="select is-link">
+                                                    <select>
+                                                        <option value="">Todo</option>
+                                                        <option value="">Doing</option>
+                                                        <option value="">Done</option>
+                                                    </select>
+                                                </div>
+                                            </p>
+                                        </div>                                        
+                                    </footer>
+                                </div>                        
+                            </div>
+                    
+                            <div class="column is-3">
+                                <header class="card-header has-background-info-dark">
+                                    <p class="card-header-title">
+                                        <span class="icon">
+                                            <i class="fas fa-thumbtack"></i>
+                                        </span>
+                                        <span>TODO</span>
                                     </p>
-                                </div>                                        
-                            </footer>
+                                </header>
+                                <div v-for="item in todos" :key="item.id" class="card mb-3">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{item.fullname}}</p>
+                                                <p class="subtitle is-6">{{item.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            {{item.task_detail}}.<br>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <div class="card-footer-item field is-grouped">
+                                            <p class="control">
+                                                <a href="#" class="button is-link">Edit</a>
+                                            </p>
+                                            <p class="control">
+                                                <a href="#" class="button is-danger">Delete</a>
+                                            </p>
+                                            <p class="control">
+                                                <div class="select is-link">
+                                                    <select>
+                                                        <option value="">Todo</option>
+                                                        <option value="">Doing</option>
+                                                        <option value="">Done</option>
+                                                    </select>
+                                                </div>
+                                            </p>
+                                        </div>                                        
+                                    </footer> 
+                                </div>
+                                <div class="is-devider"><br></div>                        
+                            </div>                    
+                    
+                            <div class="column is-3">
+                                <header class="card-header has-background-success">
+                                    <p class="card-header-title">
+                                        <span class="icon">
+                                            <i class="fas fa-thumbtack"></i>
+                                        </span>
+                                        <span>DOING</span>
+                                    </p>
+                                </header>
+                                <div v-for="item in doings" :key="item.id" class="card mb-3">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{item.fullname}}</p>
+                                                <p class="subtitle is-6">{{item.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            {{item.task_detail}}.<br>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <div class="card-footer-item field is-grouped">
+                                            <p class="control">
+                                                <a href="#" class="button is-link">Edit</a>
+                                            </p>
+                                            <p class="control">
+                                                <a href="#" class="button is-danger">Delete</a>
+                                            </p>
+                                            <p class="control">
+                                                <div class="select is-link">
+                                                    <select>
+                                                        <option value="">Todo</option>
+                                                        <option value="">Doing</option>
+                                                        <option value="">Done</option>
+                                                    </select>
+                                                </div>
+                                            </p>
+                                        </div>                                        
+                                    </footer>                            
+                                </div>            
+                            </div>
+                    
+                            <div class="column is-3">
+                                <header class="card-header has-background-danger">
+                                    <p class="card-header-title">
+                                        <span class="icon">
+                                            <i class="fas fa-thumbtack"></i>
+                                        </span>
+                                        <span>DONE</span>
+                                    </p>
+                                </header>
+                                <div v-for="item in dones" :key="item.id" class="card mb-3">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img src="https://ui-avatars.com/api/?name=Anton+Prio" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{item.fullname}}</p>
+                                                <p class="subtitle is-6">{{item.email}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            {{item.task_detail}}.<br>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <div class="card-footer-item field is-grouped">
+                                            <p class="control">
+                                                <a href="#" class="button is-link">Edit</a>
+                                            </p>
+                                            <p class="control">
+                                                <a href="#" class="button is-danger">Delete</a>
+                                            </p>
+                                            <p class="control">
+                                                <div class="select is-link">
+                                                    <select>
+                                                        <option value="">Todo</option>
+                                                        <option value="">Doing</option>
+                                                        <option value="">Done</option>
+                                                    </select>
+                                                </div>
+                                            </p>
+                                        </div>                                        
+                                    </footer>
+                                </div>
+                                <div class="is-devider"><br></div>                        
+                            </div>
                         </div>
-                        <div class="is-devider"><br></div>                        
+                    </div>
+
+                    <div v-else class="column is-full mt-1">
+                        <div class="is-flex is-align-items-center is-justify-content-center">
+                            <div class="column is-half">
+                                <form @submit.prevent="addTask" class="box">
+                                    <div class="has-text-centered is-size-3 is-family-sans-serif has-text-weight-bold">
+                                        <h1>Add New Task</h1>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Your Fullname</label>
+                                        <div class="control">
+                                            <input v-model="task.fullname" type="text" class="input" placeholder="e.g JhonDoe">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Your Email</label>
+                                        <div class="control">
+                                            <input v-model="task.email" type="email" class="input" placeholder="e.g JhonDoe">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Task Name</label>
+                                        <div class="control">
+                                            <input v-model="task.task_name" type="text" class="input" placeholder="e.g Coding">
+                                        </div>
+                                    </div>                                    
+                                    <div class="field">
+                                        <label class="label">Task Detail</label>
+                                        <div class="control">
+                                            <textarea v-model="task.task_detail" cols="30" rows="10" class="textarea"></textarea>
+                                        </div>                                        
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Task Category</label>
+                                        <div class="control">
+                                            <div class="select">                                                
+                                                <select v-model="task.category" class="is-hovered">
+                                                    <option value="backlog">Backlog</option>
+                                                    <option value="todo">Todo</option>
+                                                    <option value="doing">Doing</option>
+                                                    <option value="done">Done</option>
+                                                </select>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="field">
+                                        <p class="control">
+                                            <button type="submit" class="button is-success">Add Task</button>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

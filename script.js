@@ -1,6 +1,6 @@
 const dummyEmail = 'anton@mail.com'
 const dummyPassword = '1234'
-const dummyTask = [
+let dummyTask = [
     {
         id: 1,
         fullname: 'Jhon Smithsonian',
@@ -21,14 +21,29 @@ const dummyTask = [
         email: 'jhon.cenasmackdown@mail.com',
         task_detail: 'Berkelahi dengan undertaker',
         category: 'backlog'
+    },
+    {
+        id: 4,
+        fullname: 'Jhon Thor',
+        email: 'jhon.thor@mail.com',
+        task_detail: 'Memberi makan ikan di dalam kolam tetangga atas persetujuan tetangga dan ikan milik tetangga yang sangat bagus warnanya',
+        category: 'done'
+    },
+    {
+        id: 5,
+        fullname: 'Jhon Thornado',
+        email: 'jhon.thornado@mail.com',
+        task_detail: 'Memberi makan ikan di dalam kolam tetangga atas persetujuan tetangga dan ikan milik tetangga yang sangat bagus warnanya',
+        category: 'done'
+    },
+    {
+        id: 6,
+        fullname: 'Jhon Kanban',
+        email: 'jhon.kanban@mail.com',
+        task_detail: 'Memberi makan ikan di dalam kolam tetangga atas persetujuan tetangga dan ikan milik tetangga yang sangat bagus warnanya',
+        category: 'done'
     }
 ]
-const backlogs = dummyTask.filter(el => el.category == 'backlog')
-const todos = dummyTask.filter(el => el.category == 'todo')
-const doings = dummyTask.filter(el => el.category == 'doing')
-const dones = dummyTask.filter(el => el.category == 'done')
-
-console.log("backlogs", backlogs);
 
 const app = new Vue({
     el: "#app",
@@ -38,10 +53,20 @@ const app = new Vue({
             email: "",
             password: ""
         },
-        backlogs: backlogs,
-        todos: todos,
-        doings: doings,
-        dones: dones,
+        dummyTask,
+        backlogs: dummyTask.filter(el => el.category == 'backlog'),
+        todos: dummyTask.filter(el => el.category == 'todo'),
+        doings: dummyTask.filter(el => el.category == 'doing'),
+        dones: dummyTask.filter(el => el.category == 'done'),
+        isData: true,
+        task: {
+            id: dummyTask.length + 1,
+            fullname: "",
+            email: "",
+            task_name: "",
+            task_detail: "",
+            category: "backlog"
+        }
     },
     methods: {
         login: function() {
@@ -56,6 +81,22 @@ const app = new Vue({
         logout: function() {
             this.isLogin = false
             localStorage.clear()
+        },
+
+        addTask: function() {
+            const { id, fullname, email, task_detail, category } = this.task
+            this.dummyTask.push({ id, fullname, email, task_detail, category })
+            this.backlogs = dummyTask.filter(el => el.category == 'backlog')
+            this.todos = dummyTask.filter(el => el.category == 'todo')
+            this.doings = dummyTask.filter(el => el.category == 'doing')
+            this.dones = dummyTask.filter(el => el.category == 'done')
+            this.isData = true
+            this.task.id = ""
+            this.task.fullname = ""
+            this.task.email = ""
+            this.task.task_name = ""
+            this.task.task_detail = ""
+            this.task.category = ""
         }
     }
 })

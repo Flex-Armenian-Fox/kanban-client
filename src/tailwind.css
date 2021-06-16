@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .content {
-  @apply bg-gray-50 border rounded-lg px-3 py-2 my-3;
+  @apply bg-gray-50 border rounded-lg px-3 py-2 mt-3;
 }
 
 .content-info {
@@ -14,4 +14,8 @@
 
 .card {
   @apply border rounded-lg shadow-lg px-3 pt-2 overflow-y-auto max-h-screen;
+}
+
+.add {
+  @apply pb-2 text-sm text-gray-500 w-full cursor-text mt-3;
 }

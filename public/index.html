@@ -9,7 +9,7 @@
   </head>
 
   <body class="text-gray-600 bg-gray-50 font-nunito">
-    <div>
+    <div id="app">
       <div class="bg-indigo-100 border-b border-gray-200">
         <nav class="flex justify-between items-center p-1 mx-3">
           <div>
@@ -35,13 +35,13 @@
         </nav>
       </div>
 
-      <main class="">
+      <main>
         <div class="grid grid-cols-4 gap-6 mt-4 mx-4">
           <div class="container">
             <div class="bg-gray-300 border-gray-300 card">
               <div class="flex justify-between">
                 <p class="font-semibold">Backlog</p>
-                <a href="">
+                <a @click.prevent="addCard = true" v-if="!addCard" href="">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     <title>Add task</title>
@@ -49,7 +49,7 @@
                 </a>
               </div>
               <!-- tasks go here -->
-              <div class="content">
+              <!-- <div class="content">
                 <div class="flex justify-between items-center">
                   <p class="text-xs text-gray-500">15-Jun</p>
                   <a href="">
@@ -97,10 +97,40 @@
                     </svg>
                   </a>
                 </div>
+              </div> -->
+
+              <!-- new task -->
+              <div v-if="addCard" class="content border border-gray-500 mb-3">
+                <!-- <div class="flex justify-between items-center">
+                  <p class="text-xs text-gray-500">{{ today }}</p>
+                </div> -->
+                <form class="pb-1 flex justify-between" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="px-1 w-full" />
+                  <button @click="addTask('backlog')">
+                    <a href="">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </button>
+                </form>
+                <div class="content-info">
+                  <p>anggi</p>
+                  <a @click.prevent="addCard = false" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      ></path>
+                    </svg>
+                  </a>
+                </div>
               </div>
 
               <!-- add task -->
-              <div class="pb-2 text-sm text-gray-500 w-full">
+              <div @click.prevent="addCard = true" v-if="!addCard" class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -319,7 +349,7 @@
               </div>
 
               <!-- add task -->
-              <div class="pb-2 text-sm text-gray-500 w-full">
+              <div class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -363,7 +393,7 @@
               </div>
 
               <!-- add task -->
-              <div class="pb-2 text-sm text-gray-500 w-full">
+              <div class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -432,7 +462,7 @@
               </div>
 
               <!-- add task -->
-              <div class="pb-2 text-sm text-gray-500 w-full">
+              <div class="add">
                 <p>Add new task . . .</p>
               </div>
             </div>
@@ -440,5 +470,8 @@
         </div>
       </main>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

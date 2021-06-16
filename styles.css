@@ -4,7 +4,6 @@ body {
 }
 
 body {
-    background-color: darkcyan;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif
 }
@@ -14,7 +13,6 @@ body {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  justify-content: space-between;
 }
 
 .navbar {
@@ -26,7 +24,7 @@ body {
 
 .kanban {
   display: flex;
-  flex: auto;
+  flex: 1 1 auto;
   overflow: auto;
 }
 
@@ -34,6 +32,8 @@ body {
   display: flex;
   flex-direction: row;
   padding: 10px 0 10px 10px;
+  justify-content: center;
+  width: 100vw;
 }
 
 .kanban-column {
@@ -45,6 +45,8 @@ body {
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     background-color: #eee;
+    height: fit-content;
+    max-height: 100%;
   }
   
 .kanban-column-header {
@@ -76,4 +78,11 @@ body {
   background-color: #fff;
   margin-bottom: 10px;
   cursor: grab;
+}
+
+.card-header-addon{
+  font-size: 0.875rem;
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between;
 }

@@ -3,10 +3,16 @@ const app = new Vue({
   data: {
     message: 'I love Vue 3000',
     today: `${new Date().getDate()}-${new Date().toLocaleString('default', { month: 'short' })}`,
-    addBacklog: false,
-    addTodo: false,
-    addDoing: false,
-    addDone: false,
+    add: {
+      backlog: false,
+      todo: false,
+      doing: false,
+      done: false,
+    },
+    // addBacklog: false,
+    // addTodo: false,
+    // addDoing: false,
+    // addDone: false,
     title: '',
     tasks: {
       backlog: [],
@@ -14,19 +20,32 @@ const app = new Vue({
       doing: [],
       done: [],
     },
+    selected: '',
+    edit: {
+      backlog: false,
+      todo: false,
+      doing: false,
+      done: false,
+    },
   },
   methods: {
-    addTask(category) {
-      function capitalize(string) {
-        return 'add' + string.charAt(0).toUpperCase() + string.slice(1);
+    addButton(category) {
+      this.add[category] = true;
+      for (const cat in this.add) {
+        if (cat != category) this.add[cat] = false;
       }
+    },
+    addTask(category) {
+      // function capitalize(string) {
+      //   return 'add' + string.charAt(0).toUpperCase() + string.slice(1);
+      // }
 
       this.tasks[category].push({
         title: this.title,
         category,
       });
 
-      this[capitalize(category)] = false;
+      this.add[category] = false;
       this.title = '';
       // console.log(task);
     },
@@ -46,6 +65,15 @@ const app = new Vue({
         });
       }
       this.deleteTask(title, category);
+    },
+    editTask() {},
+    option(title, category) {
+      if (this.selected == 'delete') {
+        this.deleteTask(title, category);
+      } else if ((this.selected = 'edit')) {
+        this.edit[category] = true;
+      }
+      this.selected = '';
     },
   },
 });

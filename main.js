@@ -1,5 +1,6 @@
 var app = new Vue({
     el: '#app',
+    props: ['value', 'editing'],
     data: {
         title: 'Testing Vue',
         backlog: [
@@ -64,5 +65,10 @@ var app = new Vue({
         newDate: "",
         newCat: "",
     },
+    methods: {
+        update(task){
+            console.log(task)
+        }
+    }
 })
   

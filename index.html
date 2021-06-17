@@ -61,7 +61,7 @@
                                     <div class="max-w-lg  w-full bg-gray-500  p-3 rounded-md">
                                         <div class="flex ">
                                             <div class="w-full content-between text-w">
-                                                <div class="text-2xl font-bold text-black uppercase">{{task.name}}</div>
+                                                <div class="text-2xl font-bold text-black uppercase"><a contenteditable="1" @keypress.enter.prevent="update(task.name)" @blur="update(task.name)">{{task.name}}</a></div>
                                                 <div class="text-xl text-black text-justify text-wrap">{{task.description}}</div>
                                             </div>
                                         </div>
@@ -126,11 +126,11 @@
                 <!--Doing-->
                 <div class="col-12 col-xl-3 my-1 justify-content-center">
                     <div class="d-flex w-75 flex-column rounded-lg bg-dark  pb-4 mx-auto">
-                        <div class="text-3xl text-bold text-white uppercase ml-4 my-2">DOING</div>
+                        <div class="text-3xl text-bold text-white uppercase ml-4 my-2"><a contenteditable="true">DOING</a></div>
                          <!-- Start doing loop-->
                          <div v-for='task in doing' :key="task.id">
                             <div class='flex max-w-sm w-full bg-white shadow-md rounded-lg overflow-hidden mx-auto my-1' style="width: 90%;">
-                                <div class="max-w-lg  w-full bg-gray-500  p-3 rounded-md">
+                                <div class="max-w-lg  w-full bg-gray-500 p-3 rounded-md">
                                     <div class="flex ">
                                         <div class="w-full content-between text-w">
                                             <div class="text-2xl font-bold text-black uppercase">{{task.name}}</div>

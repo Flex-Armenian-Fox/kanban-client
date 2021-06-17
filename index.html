@@ -188,10 +188,7 @@
                                             <p class="control">
                                                 <div class="select is-link">
                                                     <select @change="changeCategory(item.id, item.category)" v-model="item.category">
-                                                        <option>backlog</option>
-                                                        <option>todo</option>
-                                                        <option>doing</option>
-                                                        <option>done</option>
+                                                        <option v-for="option in categories">{{option}}</option>
                                                     </select>
                                                 </div>
                                             </p>
@@ -240,10 +237,7 @@
                                             <p class="control">
                                                 <div class="select is-link">
                                                     <select @change="changeCategory(item.id, item.category)" v-model="item.category">
-                                                        <option>backlog</option>
-                                                        <option>todo</option>
-                                                        <option>doing</option>
-                                                        <option>done</option>
+                                                        <option v-for="option in categories">{{option}}</option>
                                                     </select>
                                                 </div>
                                             </p>
@@ -291,10 +285,7 @@
                                             <p class="control">
                                                 <div class="select is-link">
                                                     <select @change="changeCategory(item.id, item.category)" v-model="item.category">
-                                                        <option>todo</option>
-                                                        <option>backlog</option>
-                                                        <option>doing</option>
-                                                        <option>done</option>
+                                                        <option v-for="option in categories">{{option}}</option>
                                                     </select>
                                                 </div>
                                             </p>

@@ -8,6 +8,7 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="https://unpkg.com/tailwindcss@2.1.0/dist/tailwind.min.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -33,8 +34,6 @@
                 <form id="new-task" class="">
                     <label class="text-bold text-white uppercase mx-auto my-1">Task Name:</label> <br>
                     <input class="form-control input-sm" type="text" v-model="newName">
-                    <label class="text-bold text-white uppercase mx-auto my-1">Task Description:</label> <br>
-                    <input class="form-control input-sm" type="text" v-model="newDesc">
                     <label class="text-bold text-white uppercase mx-auto my-1">Deadline:</label> <br>
                     <input class="form-control input-sm" type="date" v-model="newDate">
                     <label class="text-bold text-white uppercase mx-auto my-1">Category:</label> <br>
@@ -61,12 +60,11 @@
                                     <div class="max-w-lg  w-full bg-gray-500  p-3 rounded-md">
                                         <div class="flex ">
                                             <div class="w-full content-between text-w">
-                                                <div class="text-2xl font-bold text-black uppercase"><a contenteditable="1" @keypress.enter.prevent="update(task.name)" @blur="update(task.name)">{{task.name}}</a></div>
-                                                <div class="text-xl text-black text-justify text-wrap">{{task.description}}</div>
+                                                <div class="text-2xl font-bold text-black uppercase"><a contenteditable="1" onkeypress="blurIfEnter(event)" @blur="update(task, $event)" id="testing">{{task.name}}</a></div>
                                             </div>
                                         </div>
-                                        <div class="w-full ">
-                                            <div class="text-sm text-black uppercase text-right">{{task.deadline}}</div>
+                                        <div class="w-full my-2">
+                                            <input class="form-control-sm float-right" type="date" value="2021-06-17"> <br>
                                         </div>
                                         <div class="flex mt-3">
                                             <div class="w-full content-between my-auto">
@@ -198,6 +196,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function blurIfEnter(e){
+            if (e.keyCode==13){
+                e.preventDefault()
+                console.log(e)
+                e.srcElement.blur()
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="main.js"></script>
 </body>

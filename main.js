@@ -66,8 +66,8 @@ var app = new Vue({
         newCat: "",
     },
     methods: {
-        update(task){
-            console.log(task)
+        update(task, event){
+            console.log(event.srcElement.text)
         }
     }
 })

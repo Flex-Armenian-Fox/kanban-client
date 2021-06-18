@@ -1,63 +1,19 @@
 const app = new Vue({
     el: "#app",
     data: {
-        isLogin: localStorage.getItem("loggedIn"),
+        serverUrl: 'http://localhost:3000/api',
+        isLogin: localStorage.getItem("access_token"),
         formLogin: {
             email: "",
             password: ""
         },
-        dummyEmail: 'anton@mail.com',
-        dummyPassword: '1234',
-        dummyTask: [
-            {
-                id: 1,
-                fullname: 'Jhon Smithsonian',
-                email: 'jhon.smithsonian@mail.com',
-                task_name: 'coding front end',
-                task_detail: 'Melanjutkan coding front end dengan vueJS',
-                category: 'backlog'
-            },
-            {
-                id: 2,
-                fullname: 'Jhon Denver',
-                email: 'jhon.denver@mail.com',
-                task_name: 'coding backend',
-                task_detail: 'Melanjutkan coding backend dengan express',
-                category: 'todo'
-            },
-            {
-                id: 3,
-                fullname: 'Jhon Cenaaaaa',
-                email: 'jhon.cenasmackdown@mail.com',
-                task_name: 'berkelahi',
-                task_detail: 'Berkelahi dengan undertaker',
-                category: 'backlog'
-            },
-            {
-                id: 4,
-                fullname: 'Jhon Thor',
-                email: 'jhon.thor@mail.com',
-                task_name: 'memberi makan',
-                task_detail: 'Memberi makan ikan gabus',
-                category: 'done'
-            },
-            {
-                id: 5,
-                fullname: 'Jhon Thornado',
-                email: 'jhon.thornado@mail.com',
-                task_name: 'memberi makan',
-                task_detail: 'Memberi makan ikan lele',
-                category: 'done'
-            },
-            {
-                id: 6,
-                fullname: 'Jhon Kanban',
-                email: 'jhon.kanban@mail.com',
-                task_name: 'memberi makan',
-                task_detail: 'Memberi makan ikan paus biru',
-                category: 'done'
-            }
-        ],                
+        formRegister: {
+            email: "",
+            password: "",
+            fullname: "",            
+        },
+        submitted: false,
+        dummyTask: [],
         isData: true,        
         formEdit: {
             taskId: 0,
@@ -65,69 +21,239 @@ const app = new Vue({
             taskDetail: "",
             taskCategory: "",
             toggleEditModal: false,
-        }        
-    },
-    methods: {        
-        login: function() {
-            const { email, password } = this.formLogin
-            if (email == this.dummyEmail && password == this.dummyPassword) {
-                localStorage.setItem("loggedIn", true)
-                this.isLogin = true
-                this.formLogin.email = ""
-                this.formLogin.password = ""
-            }
         },
+        loginState: {
+            loginMessage: "",
+            registerMessage: "",
+            isRegister: false
+        }
+    },    
+    methods: {        
+        emptyForm: function() {
+            this.formLogin.email = ""
+            this.formLogin.password = ""
+            this.formRegister.email = ""
+            this.formRegister.password = ""
+            this.formRegister.fullname = ""
+            this.formEdit.taskId =  0
+            this.formEdit.taskTitle = ""
+            this.formEdit.taskDetail = ""
+            this.formEdit.taskCategory = ""
+        },
+
+        cancel: function() {
+            this.loginState.isRegister = false
+            this.emptyForm()
+        },
+
+        fetchData: function() {
+            this.isData = true
+            const access_token = localStorage.getItem('access_token')
+            axios({
+                method: 'GET',
+                url: `${this.serverUrl}/tasks`,
+                headers: { access_token }
+            })
+            .then(res => {
+                const { data: tasks } = res.data
+                this.dummyTask = tasks
+            })
+            .catch(err => {
+                console.log("error fetchData", err);
+            })
+        },
+
+        register: function() {
+            this.submitted = true
+            axios({
+                method: 'POST',
+                url: `${this.serverUrl}/users/register`,
+                data: {
+                    email: this.formRegister.email,
+                    password: this.formRegister.password,
+                    full_name: this.formRegister.fullname
+                }                
+            })
+            .then(() => {
+                swal("Register Succes", "Register New User Success, you will be redirected to login page", "success")
+                this.submitted = false
+                this.loginState.isRegister = false
+                this.emptyForm()
+            })
+            .catch(err => {
+                console.log("error register", err.response.data);
+                const { error } = err.response.data
+                this.loginState.registerMessage = error.message
+                this.submitted = false
+            })
+        },
+
+        login: function() {
+            axios({
+                method: 'POST',
+                url: `${this.serverUrl}/users/login`,
+                data: {
+                    email: this.formLogin.email,
+                    password: this.formLogin.password
+                }
+            })
+            .then(res => {
+                const { data } = res.data
+                localStorage.setItem("access_token", data.access_token)
+                this.isLogin = true
+                this.emptyForm()
+                this.fetchData()
+            })
+            .catch(err => {
+                console.log("error login", err.response);
+                const { error } = err.response.data
+                this.isLogin = false
+                this.loginState.loginMessage = error.message
+            })
+        },
+
         logout: function() {
             this.isLogin = false
             localStorage.clear()
+            this.emptyForm()
         },
+
         showEdit: function(data) {
             this.formEdit.toggleEditModal = true
-            this.formEdit.taskId = data.id
-            this.formEdit.taskTitle = data.task_name
-            this.formEdit.taskDetail = data.task_detail
-            this.formEdit.taskCategory = data.category
-        },
-        editData: function() {
-            this.dummyTask.map(el => {
-                if (el.id == this.formEdit.taskId) {
-                    console.log("el", el);
-                    el.task_name = this.formEdit.taskTitle
-                    el.task_detail = this.formEdit.taskDetail
-                    el.category = this.formEdit.taskCategory
-
-                    return el
-                }                
+            axios({
+                method: 'GET',
+                url: `${this.serverUrl}/tasks/${data.id}`,
+                headers: {
+                    access_token: localStorage.getItem("access_token")
+                }
             })
-            this.formEdit.toggleEditModal = false
+            .then(res => {
+                const { data:task } = res.data
+                this.formEdit.taskId = task.id
+                this.formEdit.taskTitle = task.title
+                this.formEdit.taskDetail = task.task_detail
+                this.formEdit.taskCategory = task.category
+            })
+            .catch(err => {
+                console.log("error showEdit", err)
+            })
         },
-        deleteData: function(id) {
-            this.dummyTask = this.dummyTask.filter(el => el.id !== id)
+
+        editData: function() {
+            this.submitted = true
+            axios({
+                method: 'PUT',
+                url: `${this.serverUrl}/tasks/${this.formEdit.taskId}`,
+                data: {
+                    title: this.formEdit.taskTitle,
+                    task_detail: this.formEdit.taskDetail,
+                    category: this.formEdit.taskCategory
+                },
+                headers: {
+                    access_token: localStorage.getItem("access_token")
+                }
+            })
+            .then(() => {
+                swal("Success", "Update Success", "success")
+                this.formEdit.toggleEditModal = false
+                this.submitted = false
+                this.emptyForm()
+                this.fetchData()
+            })
+            .catch(err => {
+                console.log("error editData", err);
+                const { error } = err.response.data
+                this.submitted = false
+                swal("Error", `${error.message}`, "error")
+            })                 
         },
+
+        deleteData: function(id, title) {
+            swal({
+                title: "Are you sure?",
+                text: `Delete task ${title}`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((confirmDelete) => {
+                if (confirmDelete) {
+                    axios({
+                        method: 'DELETE',
+                        url: `${this.serverUrl}/tasks/${id}`,
+                        headers: {
+                            access_token: localStorage.getItem("access_token")
+                        }
+                    })
+                    .then(() => {
+                        swal("Success", "Task Deleted", "success")
+                        this.fetchData()
+                    })
+                    .catch(err => {
+                        console.log("error deleteData", err)
+                        const { error } = err.response.data                                        
+                        swal("Error", `${error.message}`, "error")
+                    })
+                }
+            });
+        },
+
         addTask: function() {
-            const { id, fullname, email, task_name, task_detail, category } = this.formAdd
-            this.dummyTask.push({ id, fullname, email, task_name, task_detail, category })
-            this.isData = true
-            this.formAdd.id = ""
-            this.formAdd.fullname = ""
-            this.formAdd.email = ""
-            this.formAdd.task_name = ""
-            this.formAdd.task_detail = ""
-            this.formAdd.category = ""
+            this.submitted = true
+            const { task_name, task_detail, category } = this.formAdd
+            axios({
+                method: 'POST',
+                url: `${this.serverUrl}/tasks`,
+                data: {
+                    title: task_name,
+                    task_detail: task_detail,
+                    category: category
+                },
+                headers: {
+                    access_token: localStorage.getItem("access_token")
+                }
+            })
+            .then(() => {
+                swal("Success", "Success Add New Data", "success");
+                this.isData = true
+                this.submitted = false
+                this.fetchData()
+                this.emptyForm()
+            })
+            .catch(err => {
+                console.log("error addTask", err);
+            })
+            
         },
+
         changeCategory: function(id, category) {
-            console.log("id nya", id);
-            console.log("category nya", category);
-            this.dummyTask.map(el => {
-                if (el.id == id) {                                        
-                    el.category = category
-                    return el
-                }   
+            axios({
+                method: 'PATCH',
+                url: `${this.serverUrl}/tasks/${id}`,
+                data: { category },
+                headers: {
+                    access_token: localStorage.getItem("access_token")
+                }
+            })
+            .then(res => {
+                console.log("response changeCategory", res);
+                this.fetchData()
+            })
+            .catch(err => {
+                console.log("error changeCategory", err);
+                const { error } = err.response.data                                        
+                swal("Error", `${error.message}`, "error")
+                this.fetchData()
             })
         }
     },
+    created: function() {
+        if (this.isLogin) {
+            this.fetchData()
+        }
+    },
     computed: {
-        tasks() {
+        allTasks() {
             return {
                 backlogs: this.dummyTask.filter(el => el.category == 'backlog'),
                 todos: this.dummyTask.filter(el => el.category == 'todo'),
@@ -135,11 +261,9 @@ const app = new Vue({
                 dones: this.dummyTask.filter(el => el.category == 'done')
             }
         },
+
         formAdd() {
-            return {
-                id: this.dummyTask.length + 1,
-                fullname: "",
-                email: "",
+            return {                
                 task_name: "",
                 task_detail: "",
                 category: "backlog"

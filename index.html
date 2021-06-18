@@ -56,7 +56,7 @@
                         <div class="text-3xl text-bold text-white uppercase ml-4 my-2">BACKLOG</div>
                         <!-- Start backlog loop-->
                             <div v-for='task in backlog' :key="task.id">
-                                <div class='flex max-w-sm w-full bg-white shadow-md rounded-lg overflow-hidden mx-auto my-1' style="width: 90%;">
+                                <div draggable="1" @dragstart='startDrag(task, $event)' class='flex max-w-sm w-full bg-white shadow-md rounded-lg overflow-hidden mx-auto my-1' style="width: 90%;">
                                     <div class="max-w-lg  w-full bg-gray-500  p-3 rounded-md">
                                         <div class="flex ">
                                             <div class="w-full content-between text-w">
@@ -64,17 +64,10 @@
                                             </div>
                                         </div>
                                         <div class="w-full my-2">
-                                            <input class="form-control-sm float-right" type="date" value="2021-06-17"> <br>
+                                            <input class="form-control-sm float-right" type="date" @change="putDate(task, $event)" v-model="task.deadline"> <br>
+                                            <p>{{task.deadline}}</p>
                                         </div>
                                         <div class="flex mt-3">
-                                            <div class="w-full content-between my-auto">
-                                                <select class="rounded-full max-w-max px-3 w-auto font-mono border border-red-500 text-black">
-                                                    <option value="backlog">Backlog</option>
-                                                    <option value="todo">To do</option>
-                                                    <option value="doing">Doing</option>
-                                                    <option value="done">Done</option>
-                                                </select>
-                                            </div>
                                             <div class="mx-1 d-flex flex-row">
                                                 <button class="rounded-full btn-sm btn btn-primary"> Edit </button>
                                                 <button class="rounded-full btn-sm btn ml-1 btn-danger"> Delete </button>
@@ -205,6 +198,7 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="main.js"></script>
 </body>

@@ -20,13 +20,15 @@ const app = new Vue({
       doing: [],
       done: [],
     },
+    editedTitle: '',
     selected: '',
     edit: {
-      backlog: false,
-      todo: false,
-      doing: false,
-      done: false,
+      backlog: [],
+      todo: [],
+      doing: [],
+      done: [],
     },
+    // edit: ['backlog', 'todo', 'doing', 'done'],
   },
   methods: {
     addButton(category) {
@@ -34,12 +36,14 @@ const app = new Vue({
       for (const cat in this.add) {
         if (cat != category) this.add[cat] = false;
       }
+      for (const cat in this.edit) {
+        if (this.edit[cat].length > 0) {
+          this.cancelEdit(cat, this.edit[cat][0]);
+          this.edit[cat].splice(0, 1);
+        }
+      }
     },
     addTask(category) {
-      // function capitalize(string) {
-      //   return 'add' + string.charAt(0).toUpperCase() + string.slice(1);
-      // }
-
       this.tasks[category].push({
         title: this.title,
         category,
@@ -47,12 +51,20 @@ const app = new Vue({
 
       this.add[category] = false;
       this.title = '';
-      // console.log(task);
     },
     deleteTask(title, category) {
       this.tasks[category] = this.tasks[category].filter((el) => el.title != title);
     },
     moveTask(title, category) {
+      for (const cat in this.add) {
+        if (this.add[cat]) this.add[cat] = false;
+      }
+      for (const cat in this.edit) {
+        if (this.edit[cat].length > 0) {
+          this.cancelEdit(cat, this.edit[cat][0]);
+          this.edit[cat].splice(0, 1);
+        }
+      }
       let newCategory;
       // console.log(title, category);
       if (category == 'backlog') newCategory = 'todo';
@@ -66,12 +78,43 @@ const app = new Vue({
       }
       this.deleteTask(title, category);
     },
-    editTask() {},
-    option(title, category) {
+    editTask(category, i) {
+      this.tasks[category][i].title = this.editedTitle;
+      this.editedTitle = '';
+      document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
+      document.querySelector(`#card-${category}-${i}`).style.display = 'block';
+      this.edit[category].splice(0, 1);
+    },
+    cancelEdit(category, i) {
+      this.editedTitle = '';
+      document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
+      document.querySelector(`#card-${category}-${i}`).style.display = 'block';
+    },
+    option(title, category, i) {
       if (this.selected == 'delete') {
         this.deleteTask(title, category);
       } else if ((this.selected = 'edit')) {
-        this.edit[category] = true;
+        // this.edit[category] = true;
+        // console.log(this.$refs[`index-${i}`]);
+        // this.$refs[`index-${i}`].style.display = 'block';
+        for (const cat in this.add) {
+          if (this.add[cat]) this.add[cat] = false;
+        }
+        this.edit[category].push(i);
+        if (this.edit[category].length > 1) {
+          this.cancelEdit(category, this.edit[category][0]);
+          this.edit[category].splice(0, 1);
+        }
+        for (const cat in this.edit) {
+          if (this.edit[cat].length > 0 && cat != category) {
+            this.cancelEdit(cat, this.edit[cat][0]);
+            this.edit[cat].splice(0, 1);
+          }
+        }
+        // console.log(JSON.parse(JSON.stringify(this.edit[category])));
+        document.querySelector(`#edit-${category}-${i}`).style.display = 'flex';
+        document.querySelector(`#card-${category}-${i}`).style.display = 'none';
+        this.editedTitle = this.tasks[category][i].title;
       }
       this.selected = '';
     },

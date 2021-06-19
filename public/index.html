@@ -50,37 +50,42 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="task in tasks.backlog" class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <select
-                    @change="option(task.title, task.category)"
-                    v-model="selected"
-                    name="option"
-                    id="option"
-                    class="w-4 outline-none bg-transparent cursor-pointer"
-                  >
-                    <option value=""></option>
-                    <option value="edit">Edit</option>
-                    <option value="delete">Delete</option>
-                  </select>
+              <div v-for="(task, i) in tasks.backlog" class="content">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <select
+                      @change="option(task.title, task.category, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>anggi</p>
+                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
-                <form class="flex justify-between items-center mb-1" @submit.prevent="editTask(task.category)" class="" action="">
-                  <input type="text" class="w-full focus:outline-none focus:ring-2 focus:ring-gray-300" autofocus required v-model="task.title" />
-                  <!-- <button
-                    v-if="edit[task.category]"
-                    class="bg-green-400 hover:bg-green-500 rounded text-center focus:outline-none px-1"
-                    type="submit"
-                  >
-                    Edit
-                  </button> -->
-                </form>
-                <!-- <p class="pb-1">{{task.title}}</p> -->
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a @click.prevent="moveTask(task.title, task.category)" href="">
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                   </a>
                 </div>
@@ -123,37 +128,42 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="task in tasks.todo" class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <select
-                    @change="option(task.title, task.category)"
-                    v-model="selected"
-                    name="option"
-                    id="option"
-                    class="w-4 outline-none bg-transparent cursor-pointer"
-                  >
-                    <option value=""></option>
-                    <option value="edit">Edit</option>
-                    <option value="delete">Delete</option>
-                  </select>
+              <div v-for="(task, i) in tasks.todo" class="content">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <select
+                      @change="option(task.title, task.category, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>anggi</p>
+                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
-                <form class="flex justify-between items-center mb-1" @submit.prevent="editTask(task.category)" class="" action="">
-                  <input type="text" class="w-full focus:outline-none focus:ring-2 focus:ring-gray-300" autofocus required v-model="task.title" />
-                  <!-- <button
-                    v-if="edit[task.category]"
-                    class="bg-green-400 hover:bg-green-500 rounded text-center focus:outline-none px-1"
-                    type="submit"
-                  >
-                    Edit
-                  </button> -->
-                </form>
-                <!-- <p class="pb-1">{{task.title}}</p> -->
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a @click.prevent="moveTask(task.title, task.category)" href="">
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                   </a>
                 </div>
@@ -196,37 +206,42 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="task in tasks.doing" class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <select
-                    @change="option(task.title, task.category)"
-                    v-model="selected"
-                    name="option"
-                    id="option"
-                    class="w-4 outline-none bg-transparent cursor-pointer"
-                  >
-                    <option value=""></option>
-                    <option value="edit">Edit</option>
-                    <option value="delete">Delete</option>
-                  </select>
+              <div v-for="(task, i) in tasks.doing" class="content">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <select
+                      @change="option(task.title, task.category, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>anggi</p>
+                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
-                <form class="flex justify-between items-center mb-1" @submit.prevent="editTask(task.category)" class="" action="">
-                  <input type="text" class="w-full focus:outline-none focus:ring-2 focus:ring-gray-300" autofocus required v-model="task.title" />
-                  <!-- <button
-                    v-if="edit[task.category]"
-                    class="bg-green-400 hover:bg-green-500 rounded text-center focus:outline-none px-1"
-                    type="submit"
-                  >
-                    Edit
-                  </button> -->
-                </form>
-                <!-- <p class="pb-1">{{task.title}}</p> -->
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a @click.prevent="moveTask(task.title, task.category)" href="">
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                   </a>
                 </div>
@@ -269,37 +284,42 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="task in tasks.done" class="content">
-                <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">15-Jun</p>
-                  <select
-                    @change="option(task.title, task.category)"
-                    v-model="selected"
-                    name="option"
-                    id="option"
-                    class="w-4 outline-none bg-transparent cursor-pointer"
-                  >
-                    <option value=""></option>
-                    <option value="edit">Edit</option>
-                    <option value="delete">Delete</option>
-                  </select>
+              <div v-for="(task, i) in tasks.done" class="content">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <select
+                      @change="option(task.title, task.category, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>anggi</p>
+                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
-                <form class="flex justify-between items-center mb-1" @submit.prevent="editTask(task.category)" class="" action="">
-                  <input type="text" class="w-full focus:outline-none focus:ring-2 focus:ring-gray-300" autofocus required v-model="task.title" />
-                  <!-- <button
-                    v-if="edit[task.category]"
-                    class="bg-green-400 hover:bg-green-500 rounded text-center focus:outline-none px-1"
-                    type="submit"
-                  >
-                    Edit
-                  </button> -->
-                </form>
-                <!-- <p class="pb-1">{{task.title}}</p> -->
-                <div class="content-info">
-                  <p>anggi</p>
-                  <a @click.prevent="moveTask(task.title, task.category)" href="">
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                   </a>
                 </div>

@@ -118,5 +118,25 @@ const app = new Vue({
       }
       this.selected = '';
     },
+
+    // drag and frop
+    startDrag(event, category, i) {
+      // console.log(event);
+      // console.log(category, i);
+      event.dataTransfer.dropEffect = 'move';
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('movedCategory', category);
+      event.dataTransfer.setData('movedIndex', i);
+    },
+
+    onDrop(event, category) {
+      const movedCategory = event.dataTransfer.getData('movedCategory');
+      const movedIndex = event.dataTransfer.getData('movedIndex');
+      console.log(movedCategory, movedIndex);
+      const movedTask = this.tasks[movedCategory][movedIndex];
+      this.title = movedTask.title;
+      this.addTask(category);
+      this.deleteTask(movedTask.title, movedTask.category);
+    },
   },
 });

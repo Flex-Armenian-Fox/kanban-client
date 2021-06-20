@@ -38,7 +38,7 @@
       <main>
         <div class="grid grid-cols-4 gap-6 mt-4 mx-4">
           <div class="container">
-            <div class="bg-gray-300 border-gray-300 card">
+            <div class="bg-gray-300 border-gray-300 card" @drop="onDrop($event, 'backlog')" @dragenter.prevent @dragover.prevent>
               <div class="flex justify-between">
                 <p class="font-semibold">Backlog</p>
                 <a @click.prevent="addButton('backlog')" v-if="!add.backlog" href="">
@@ -50,7 +50,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.backlog" class="content">
+              <div v-for="(task, i) in tasks.backlog" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">15-Jun</p>
@@ -116,7 +116,7 @@
           </div>
 
           <div class="container">
-            <div class="bg-yellow-200 border-yellow-200 card">
+            <div class="bg-yellow-200 border-yellow-200 card" @drop="onDrop($event, 'todo')" @dragenter.prevent @dragover.prevent>
               <div class="flex justify-between">
                 <p class="font-semibold">Todo</p>
                 <a @click.prevent="addButton('todo')" v-if="!add.todo" href="">
@@ -128,7 +128,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.todo" class="content">
+              <div v-for="(task, i) in tasks.todo" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">15-Jun</p>
@@ -194,7 +194,7 @@
           </div>
 
           <div class="container">
-            <div class="bg-blue-300 border-blue-300 card">
+            <div class="bg-blue-300 border-blue-300 card" @drop="onDrop($event, 'doing')" @dragenter.prevent @dragover.prevent>
               <div class="flex justify-between">
                 <p class="font-semibold">Doing</p>
                 <a @click.prevent="addButton('doing')" v-if="!add.doing" href="">
@@ -206,7 +206,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.doing" class="content">
+              <div v-for="(task, i) in tasks.doing" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">15-Jun</p>
@@ -272,7 +272,7 @@
           </div>
 
           <div class="container">
-            <div class="bg-green-400 border-green-400 card">
+            <div class="bg-green-400 border-green-400 card" @drop="onDrop($event, 'done')" @dragenter.prevent @dragover.prevent>
               <div class="flex justify-between">
                 <p class="font-semibold">Done</p>
                 <a @click.prevent="addButton('done')" v-if="!add.done" href="">
@@ -284,7 +284,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.done" class="content">
+              <div v-for="(task, i) in tasks.done" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">15-Jun</p>

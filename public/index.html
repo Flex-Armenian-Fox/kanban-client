@@ -53,9 +53,9 @@
               <div v-for="(task, i) in tasks.backlog" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
-                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
                     <select
-                      @change="option(task.title, task.category, i)"
+                      @change="option(task, i)"
                       v-model="selected"
                       name="option"
                       id="option"
@@ -68,8 +68,8 @@
                   </div>
                   <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
                   <div class="content-info">
-                    <p>anggi</p>
-                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -78,7 +78,7 @@
                 </div>
 
                 <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
-                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
                     <input type="text" class="add-input" autofocus required v-model="editedTitle" />
                     <button class="add-btn" type="submit">Edit</button>
                   </form>
@@ -93,9 +93,6 @@
 
               <!-- new task -->
               <div v-if="add.backlog" class="content-add">
-                <!-- <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">{{ today }}</p>
-                </div> -->
                 <form @submit.prevent="addTask('backlog')" class="" action="">
                   <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
                   <button class="add-btn" type="submit">Add</button>
@@ -131,9 +128,9 @@
               <div v-for="(task, i) in tasks.todo" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
-                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
                     <select
-                      @change="option(task.title, task.category, i)"
+                      @change="option(task, i)"
                       v-model="selected"
                       name="option"
                       id="option"
@@ -146,8 +143,8 @@
                   </div>
                   <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
                   <div class="content-info">
-                    <p>anggi</p>
-                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -156,7 +153,7 @@
                 </div>
 
                 <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
-                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
                     <input type="text" class="add-input" autofocus required v-model="editedTitle" />
                     <button class="add-btn" type="submit">Edit</button>
                   </form>
@@ -171,9 +168,6 @@
 
               <!-- new task -->
               <div v-if="add.todo" class="content-add">
-                <!-- <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">{{ today }}</p>
-                </div> -->
                 <form @submit.prevent="addTask('todo')" class="" action="">
                   <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
                   <button class="add-btn" type="submit">Add</button>
@@ -209,9 +203,9 @@
               <div v-for="(task, i) in tasks.doing" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
-                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
                     <select
-                      @change="option(task.title, task.category, i)"
+                      @change="option(task, i)"
                       v-model="selected"
                       name="option"
                       id="option"
@@ -224,8 +218,8 @@
                   </div>
                   <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
                   <div class="content-info">
-                    <p>anggi</p>
-                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -234,7 +228,7 @@
                 </div>
 
                 <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
-                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
                     <input type="text" class="add-input" autofocus required v-model="editedTitle" />
                     <button class="add-btn" type="submit">Edit</button>
                   </form>
@@ -249,9 +243,6 @@
 
               <!-- new task -->
               <div v-if="add.doing" class="content-add">
-                <!-- <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">{{ today }}</p>
-                </div> -->
                 <form @submit.prevent="addTask('doing')" class="" action="">
                   <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
                   <button class="add-btn" type="submit">Add</button>
@@ -287,9 +278,9 @@
               <div v-for="(task, i) in tasks.done" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
-                    <p class="text-xs text-gray-500">15-Jun</p>
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
                     <select
-                      @change="option(task.title, task.category, i)"
+                      @change="option(task, i)"
                       v-model="selected"
                       name="option"
                       id="option"
@@ -302,8 +293,8 @@
                   </div>
                   <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
                   <div class="content-info">
-                    <p>anggi</p>
-                    <a @click.prevent="moveTask(task.title, task.category)" href="" :class="`index-${i}`">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                       </svg>
@@ -312,7 +303,7 @@
                 </div>
 
                 <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
-                  <form @submit.prevent="editTask(task.category, i)" class="" action="">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
                     <input type="text" class="add-input" autofocus required v-model="editedTitle" />
                     <button class="add-btn" type="submit">Edit</button>
                   </form>
@@ -327,9 +318,6 @@
 
               <!-- new task -->
               <div v-if="add.done" class="content-add">
-                <!-- <div class="flex justify-between items-center">
-                  <p class="text-xs text-gray-500">{{ today }}</p>
-                </div> -->
                 <form @submit.prevent="addTask('done')" class="" action="">
                   <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
                   <button class="add-btn" type="submit">Add</button>

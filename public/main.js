@@ -9,11 +9,8 @@ const app = new Vue({
       doing: false,
       done: false,
     },
-    // addBacklog: false,
-    // addTodo: false,
-    // addDoing: false,
-    // addDone: false,
     title: '',
+    // tasks: [],
     tasks: {
       backlog: [],
       todo: [],
@@ -28,7 +25,6 @@ const app = new Vue({
       doing: [],
       done: [],
     },
-    // edit: ['backlog', 'todo', 'doing', 'done'],
   },
   methods: {
     addButton(category) {
@@ -44,18 +40,61 @@ const app = new Vue({
       }
     },
     addTask(category) {
-      this.tasks[category].push({
+      // this.tasks[category].push({
+      //   title: this.title,
+      //   category,
+      // });
+
+      // this.add[category] = false;
+      // this.title = '';
+
+      const data = {
         title: this.title,
         category,
-      });
+      };
+      fetch('http://localhost:3000/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res.data);
+          res.data.createdAt = this.dateFormat(res.data.createdAt);
+          this.tasks[res.data.category].push(res.data);
+          this.add[category] = false;
+          this.title = '';
+        });
+    },
+    deleteTask(task) {
+      // this.tasks[category] = this.tasks[category].filter((el) => el.title != title);
 
-      this.add[category] = false;
-      this.title = '';
+      const { category, id } = task;
+
+      this.tasks[category] = this.tasks[category].filter((el) => el.id != id);
+
+      fetch('http://localhost:3000/tasks/' + id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+        });
     },
-    deleteTask(title, category) {
-      this.tasks[category] = this.tasks[category].filter((el) => el.title != title);
-    },
-    moveTask(title, category) {
+    moveTask(task) {
+      const { title, category, id } = task;
+
       for (const cat in this.add) {
         if (this.add[cat]) this.add[cat] = false;
       }
@@ -66,7 +105,6 @@ const app = new Vue({
         }
       }
       let newCategory;
-      // console.log(title, category);
       if (category == 'backlog') newCategory = 'todo';
       else if (category == 'todo') newCategory = 'doing';
       else if (category == 'doing') newCategory = 'done';
@@ -76,23 +114,63 @@ const app = new Vue({
           category: newCategory,
         });
       }
-      this.deleteTask(title, category);
+
+      const data = {
+        category: newCategory,
+      };
+      console.log(data);
+      fetch('http://localhost:3000/tasks/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          this.deleteTask(task);
+        });
     },
-    editTask(category, i) {
-      this.tasks[category][i].title = this.editedTitle;
-      this.editedTitle = '';
-      document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
-      document.querySelector(`#card-${category}-${i}`).style.display = 'block';
-      this.edit[category].splice(0, 1);
+    editTask(task, i) {
+      const { category, id } = task;
+
+      const data = {
+        title: this.editedTitle,
+      };
+      console.log(data);
+      fetch('http://localhost:3000/tasks/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          this.tasks[category][i].title = this.editedTitle;
+          this.editedTitle = '';
+          document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
+          document.querySelector(`#card-${category}-${i}`).style.display = 'block';
+          this.edit[category].splice(0, 1);
+        });
     },
     cancelEdit(category, i) {
       this.editedTitle = '';
       document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
       document.querySelector(`#card-${category}-${i}`).style.display = 'block';
     },
-    option(title, category, i) {
+    option(task, i) {
+      const { category, title } = task;
       if (this.selected == 'delete') {
-        this.deleteTask(title, category);
+        this.deleteTask(task);
       } else if ((this.selected = 'edit')) {
         // this.edit[category] = true;
         // console.log(this.$refs[`index-${i}`]);
@@ -121,8 +199,6 @@ const app = new Vue({
 
     // drag and frop
     startDrag(event, category, i) {
-      // console.log(event);
-      // console.log(category, i);
       event.dataTransfer.dropEffect = 'move';
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('movedCategory', category);
@@ -138,5 +214,38 @@ const app = new Vue({
       this.addTask(category);
       this.deleteTask(movedTask.title, movedTask.category);
     },
+
+    // connect to server
+    fetchData() {
+      return fetch('http://localhost:3000/tasks', {
+        method: 'GET',
+        headers: {
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          return res.data;
+        });
+    },
+
+    dateFormat(date) {
+      return `${new Date(date).getDate()}-${new Date(date).toLocaleString('default', { month: 'short' })}`;
+    },
+  },
+  async created() {
+    console.log(await this.fetchData());
+    try {
+      let tasks = await this.fetchData();
+      tasks.map((el) => {
+        el.createdAt = this.dateFormat(el.createdAt);
+        this.tasks[el.category].push(el);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    // console.log(JSON.parse(JSON.stringify(this.tasks)));
   },
 });

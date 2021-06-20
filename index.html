@@ -4,60 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/tailwind.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="./img/Kanban-Favicon-02.png" sizes="16x16">
     <!-- GOOGLE OAUTH -->
     <meta name="google-signin-client_id" content="54580435784-6ultvvjbokrp8k1dk38ogs3dtdl5rr14.apps.googleusercontent.com">
     <title>Kanban</title>
 </head>
 <body class="main-body bg-gray-800">
-
-    <!-- <h1 class="text-xl font-medium text-yellow-500">Hello World!</h1> -->
+<div id="app">
 
     <div>
-
-        <!-- START ––– MAIN NAV BAR -->
-
-        <!-- <nav class="bg-gray-800">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-              <div class="flex items-center">
-                <div class="flex-shrink-0">
-                  <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
-                </div>
-                <div class="hidden md:block">
-                  <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>      
-                  </div>
-                </div>
-              </div>
-              <div class="hidden md:block">
-                <div class="ml-4 flex items-center md:ml-6"> -->
-
-                  <!-- Profile dropdown -->
-                  <!-- <div class="ml-3 relative">
-                    <div>
-                      <button type="button" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                        <span class="sr-only">Open user menu</span>
-                        <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav> -->
-
         <div>
-            <div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-              <nav class="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
+
+        <!-- START ––– MAIN NAV BAR ––– LOGGED OUT -->
+        <section v-if="!login">
+            <div class="fixed pt-6 px-4 sm:px-6 lg:px-8">
+              <nav class="flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
                 <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                   <div class="flex items-center justify-between w-full md:w-auto">
                     <a href="#">
-                      <span class="sr-only">Workflow</span>
-                      <img class="h-8 w-auto sm:h-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg">
+                      <span class="sr-only">Kanban</span>
+                      <img class="h-12 w-auto sm:h-14" src="./img/Kanban-Logo-03.png">
                     </a>
                     <div class="-mr-2 flex items-center md:hidden">
                       <button type="button" class="bg-gray-600 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">
@@ -71,319 +37,536 @@
                   </div>
                 </div>
                 <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                  <a href="#" class="font-medium text-gray-200 hover:text-gray-400">Product</a>
-    
+                  <a href="#" class="font-medium text-gray-200 hover:text-gray-400">About Us</a>
                   <a href="#" class="font-medium text-gray-200 hover:text-gray-400">Features</a>
-    
-                  <a href="#" class="font-medium text-gray-200 hover:text-gray-400">Marketplace</a>
-    
-                  <a href="#" class="font-medium text-gray-200 hover:text-gray-400">Company</a>
-    
-                  <a href="#" class="font-medium text-indigo-500 hover:text-indigo-500">Log in</a>
+                  <a href="#" @click="currentPage = 'login'" class="font-medium text-yellow-500 hover:text-yellow-400">Log in</a>
+                  <a href="#" @click="currentPage = 'register'" class="font-medium text-indigo-500 hover:text-indigo-400">Create an Account</a>
                 </div>
               </nav>
             </div>
-        <!-- END ––– MAIN NAV BAR -->
+        </section>
+        <!-- END ––– MAIN NAV BAR ––– LOGGED OUT -->
 
-        <!-- START ––– MAIN CONTENT CONTAINER -->
-        <main>
-          <div class="max-w-7xl mx-auto overflow-x-auto py-6 sm:px-6 lg:px-8">
-            <!-- Replace with your content -->
-
-
-            <div class="flex flex-row justify-center px-4 py-6 mx-4 min-w-min sm:px-0">
-
-                <!-- START - BACKLOG -->
-                <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
-                    
-                    <div class="p-2 m-3 bg-gray-500 text-gray-100 shadow rounded-3xl text-xs tracking-widest font-extrabold w-24 grid justify-items-center">BACKLOG</div>
-                    
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-gray-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
+        <!-- START ––– MAIN NAV BAR ––– LOGGED IN -->
+        <section v-else-if="login">
+            <div class="relative pt-6 px-4 sm:px-6 lg:px-8">
+              <nav class="flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
+                <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+                  <div class="flex items-center justify-between w-full md:w-auto">
+                    <a href="#">
+                      <span class="sr-only">Kanban</span>
+                      <img class="h-16 w-auto sm:h-14" src="./img/Kanban-Logo-03.png">
+                    </a>
+                    <div class="-mr-2 flex items-center md:hidden">
+                      <button type="button" class="bg-gray-600 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Heroicon name: outline/menu -->
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                      </button>
                     </div>
-                    <!-- END CARD TASK -->
+                  </div>
                 </div>
-                <!-- END - BACKLOG -->
-
-
-                <!-- START - TODO -->
-                <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
-                    
-                    <div class="p-2 m-3 bg-blue-600 text-gray-200 shadow rounded-3xl text-xs tracking-widest font-extrabold w-20 grid justify-items-center">TODO</div>
-                    
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-blue-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-blue-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-
+                <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
+                  <a href="#" @click="currentPage === 'homepage'" class="font-medium text-gray-200 hover:text-gray-400">My Kanban</a>
+                  <a href="#" @click="logout()" class="font-medium text-yellow-500 hover:text-yellow-400">Log out</a>
                 </div>
-                <!-- END - TODO -->
-
-
-                <!-- START - DOING -->
-                <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
-                    
-                    <div class="p-2 m-3 bg-yellow-500 text-gray-100 shadow rounded-3xl text-xs tracking-widest font-extrabold w-20 grid justify-items-center">DOING</div>
-                    
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-yellow-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-yellow-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-yellow-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-
-                </div>
-                <!-- END - DOING -->
-
-
-                <!-- START - DONE -->
-                <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
-
-                    <div class="p-2 m-3 bg-green-500 text-white shadow rounded-3xl text-xs tracking-widest font-extrabold w-20 grid justify-items-center">DONE</div>
-                    
-                    <!-- START CARD TASK -->
-                    <div class="bg-white w-60 mx-3 my-4 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
-
-                        <!-- --Due Date + Icon -->
-                        <div class="flex flex-row p-3">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="text-green-500 text-xs font-semibold antialiased tracking-wide">18 JUN 2021</div>
-                        </div>
-
-                        <!-- --Title + Description -->
-                        <div class="flex flex-col">
-                            <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">Templating Client, VUE Introduction</div>
-                            <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">Description if any goes here, aliquam vel interdum mi, quis egestas ligula. Ultricies mauris, at interdum sem porttitor et.</div>
-                        </div>
-
-                        <!-- --Edit + Delete Buttons -->
-                        <div class="flex flex-row p-3">
-                            <div class="mr-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END CARD TASK -->
-                </div>
-                <!-- END - DONE -->
-
+              </nav>
             </div>
+        </section>
+        <!-- END ––– MAIN NAV BAR ––– LOGGED IN -->
 
+        <!-- START ––– MAIN HOMEPAGE CONTAINER -->
+        <section v-if="currentPage == 'homepage' && login == true">
+            <main>
+              <div class="max-w-7xl mx-auto overflow-x-auto py-6 sm:px-6 lg:px-8">
+                <!-- Replace with your content -->
+    
+    
+                <div class="flex flex-row justify-center px-4 py-6 mx-4 min-w-min sm:px-0">
+    
+                    <!-- START - BACKLOG -->
+                    <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
+                        
+                        <!-- -- Column Title + Add Todo Icon -->
+                        <div class="flex flex-row justify-between">
+                            <div class="p-2 m-3 w-24 h-8 bg-gray-500 text-gray-100 shadow rounded-3xl text-xs tracking-widest font-extrabold grid justify-items-center">BACKLOG</div>
+                            <button @click="showForm_backlog()" class="mx-3 my-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-500 hover:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- START CARD TASK -->
+                        <section v-for="(task, index) in tasks" v-if="task.category === 'backlog'" v-bind:index="index" v-bind:key="task.id" v-bind:category="task.category">
+                        <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+    
+                            <!-- --Due Date + Icon -->
+                            <div class="flex flex-row p-3">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="text-gray-500 text-xs font-semibold antialiased tracking-wide">{{ dueDate_formatter(task.due_date) }}</div>
+                            </div>
+    
+                            <!-- --Title + Description -->
+                            <div class="flex flex-col">
+                                <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ task.title }}</div>
+                                <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ task.description }}</div>
+                            </div>
+    
+                            <!-- --Edit + Delete Buttons -->
+                            <div class="flex flex-row p-3">
+                                <button class="mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button @click="deleteTask(task.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        </section>
+                        <!-- END CARD TASK -->
+    
+                        <!-- START - ADD NEW BACKLOG -->
+                        <section v-show="addNew_backlog">
+                            <div class="bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+        
+                                <!-- --Title + Description -->
+                                <div class="flex flex-col">
+                                    <form @submit.prevent="addNewTask('backlog')" id="add-backlog-form">
+                                        <div class="col-span-6 sm:col-span-3 mt-2 mx-3">
+                                            <label for="backlog-title" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">TITLE</label>
+                                            <input v-model="newTask.title" type="text" name="backlog-title" id="backlog-title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="mt-2 mx-3">
+                                            <label for="backlog-description" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">DESCRIPTION</label>
+                                            <textarea v-model="newTask.description" id="backlog-description" name="backlog-description" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"></textarea>
+                                        </div>
+                                        <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
+                                            <label for="backlog-duedate" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">DUE DATE</label>
+                                            <input v-model="formDueDate" type="date" name="backlog-duedate" id="backlog-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="px-2 py-3 sm:px-3 ">
+                                            <button @click="hideForm_backlog()" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Save
+                                            </button>
+                                            <button @click="hideForm_backlog()" type="button" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+        
+                            </div>
+                        </section>
+                        <!-- END - ADD NEW BACKLOG -->
+    
+                    </div>
+                    <!-- END - BACKLOG -->
+    
+    
+                    <!-- START - TODO -->
+                    <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
+                        
+                        <!-- -- Column Title + Add Todo Icon -->
+                        <div class="flex flex-row justify-between">
+                            <div class="p-2 m-3 w-20 h-8 bg-blue-600 text-gray-200 shadow rounded-3xl text-xs tracking-widest font-extrabold grid justify-items-center">TODO</div>
+                            <button @click="showForm_todo()" class="mx-3 my-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-500 hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </button>
+                        </div>
+    
+                        <!-- START CARD TASK -->
+                        <section v-for="(task, index) in tasks" v-if="task.category === 'todo'" v-bind:index="index" v-bind:key="task.id" v-bind:category="task.category">
+                        <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+    
+                            <!-- --Due Date + Icon -->
+                            <div class="flex flex-row p-3">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="text-blue-500 text-xs font-semibold antialiased tracking-wide">{{ dueDate_formatter(task.due_date) }}</div>
+                            </div>
+    
+                            <!-- --Title + Description -->
+                            <div class="flex flex-col">
+                                <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ task.title }}</div>
+                                <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ task.description }}</div>
+                            </div>
+    
+                            <!-- --Edit + Delete Buttons -->
+                            <div class="flex flex-row p-3">
+                                <button class="mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button @click="deleteTask(task.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        </section>
+                        <!-- END CARD TASK -->
+    
+                        <!-- START - ADD NEW TODO -->
+                        <section v-show="addNew_todo">
+                            <div class="bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+        
+                                <!-- --Title + Description -->
+                                <div class="flex flex-col">
+                                    <form @submit.prevent="addNewTask('todo')" id="add-todo-form">
+                                        <div class="col-span-6 sm:col-span-3 mt-2 mx-3">
+                                            <label for="todo-title" class="block text-xs font-semibold antialiased tracking-widest text-blue-400">TITLE</label>
+                                            <input v-model="newTask.title" type="text" name="todo-title" id="todo-title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="mt-2 mx-3">
+                                            <label for="todo-description" class="block text-xs font-semibold antialiased tracking-widest text-blue-400">DESCRIPTION</label>
+                                            <textarea v-model="newTask.description" id="todo-description" name="todo-description" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"></textarea>
+                                        </div>
+                                        <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
+                                            <label for="todo-duedate" class="block text-xs font-semibold antialiased tracking-widest text-blue-400">DUE DATE</label>
+                                            <input v-model="formDueDate" type="date" name="todo-duedate" id="todo-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="px-2 py-3 sm:px-3 ">
+                                            <button @click="hideForm_todo()" type="submit" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Save
+                                            </button>
+                                            <button @click="hideForm_todo()" type="button" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+        
+                            </div>
+                        </section>
+                        <!-- END - ADD NEW TODO -->
+    
+                        
+    
+                    </div>
+                    <!-- END - TODO -->
+    
+    
+                    <!-- START - DOING -->
+                    <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
+                        
+                        <!-- -- Column Title + Add Todo Icon -->
+                        <div class="flex flex-row justify-between">
+                            <div class="p-2 m-3 w-20 h-8 bg-yellow-500 text-gray-100 shadow rounded-3xl text-xs tracking-widest font-extrabold grid justify-items-center">DOING</div>
+                            <button @click="showForm_doing()" class="mx-3 my-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- START CARD TASK -->
+                        <section v-for="(task, index) in tasks" v-if="task.category === 'doing'" v-bind:index="index" v-bind:key="task.id" v-bind:category="task.category">
+                        <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+    
+                            <!-- --Due Date + Icon -->
+                            <div class="flex flex-row p-3">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="text-yellow-500 text-xs font-semibold antialiased tracking-wide">{{ dueDate_formatter(task.due_date) }}</div>
+                            </div>
+    
+                            <!-- --Title + Description -->
+                            <div class="flex flex-col">
+                                <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ task.title }}</div>
+                                <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ task.description }}</div>
+                            </div>
+    
+                            <!-- --Edit + Delete Buttons -->
+                            <div class="flex flex-row p-3">
+                                <button class="mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button @click="deleteTask(task.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        </section>
+                        <!-- END CARD TASK -->
+    
+                        <!-- START - ADD NEW DOING -->
+                        <section v-show="addNew_doing">
+                        <div class="bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+    
+                            <!-- --Title + Description -->
+                            <div class="flex flex-col">
+                                <form @submit.prevent="addNewTask('doing')" id="add-doing-form">
+                                    <div class="col-span-6 sm:col-span-3 mt-2 mx-3">
+                                        <label for="doing-title" class="block text-xs font-semibold antialiased tracking-widest text-yellow-500">TITLE</label>
+                                        <input v-model="newTask.title" type="text" name="doing-title" id="doing-title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                    </div>
+                                    <div class="mt-2 mx-3">
+                                        <label for="doing-description" class="block text-xs font-semibold antialiased tracking-widest text-yellow-500">DESCRIPTION</label>
+                                        <textarea v-model="newTask.description" id="doing-description" name="doing-description" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"></textarea>
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
+                                        <label for="doing-duedate" class="block text-xs font-semibold antialiased tracking-widest text-yellow-500">DUE DATE</label>
+                                        <input v-model="formDueDate" type="date" name="doing-duedate" id="doing-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                    </div>
+                                    <div class="px-2 py-3 sm:px-3 ">
+                                        <button @click="hideForm_doing()" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                          Save
+                                        </button>
+                                        <button @click="hideForm_doing()" type="button" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                          Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+    
+                        </div>
+                        </section>
+                        <!-- END - ADD NEW DOING -->
+    
+                    </div>
+                    <!-- END - DOING -->
+    
+    
+                    <!-- START - DONE -->
+                    <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
+    
+                        <!-- -- Column Title + Add Todo Icon -->
+                        <div class="flex flex-row justify-between">
+                            <div class="p-2 m-3 w-20 h-8 bg-green-500 text-white shadow rounded-3xl text-xs tracking-widest font-extrabold grid justify-items-center">DONE</div>
+                            <button @click="showForm_done()" class="mx-3 my-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-green-500 hover:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- START CARD TASK -->
+                        <section v-for="(task, index) in tasks" v-if="task.category === 'done'" v-bind:index="index" v-bind:key="task.id" v-bind:category="task.category">
+                        <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+    
+                            <!-- --Due Date + Icon -->
+                            <div class="flex flex-row p-3">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div class="text-green-500 text-xs font-semibold antialiased tracking-wide">{{ dueDate_formatter(task.due_date) }}</div>
+                            </div>
+    
+                            <!-- --Title + Description -->
+                            <div class="flex flex-col">
+                                <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ task.title }}</div>
+                                <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ task.description }}</div>
+                            </div>
+    
+                            <!-- --Edit + Delete Buttons -->
+                            <div class="flex flex-row p-3">
+                                <button class="mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </button>
+                                <button @click="deleteTask(task.id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        </section>
+                        <!-- END CARD TASK -->
+    
+                        <!-- START - ADD NEW DONE -->
+                        <section v-show="addNew_done">
+                            <div class="bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+        
+                                <!-- --Title + Description -->
+                                <div class="flex flex-col">
+                                    <form @submit.prevent="addNewTask('done')" id="add-done-form">
+                                        <div class="col-span-6 sm:col-span-3 mt-2 mx-3">
+                                            <label for="done-title" class="block text-xs font-semibold antialiased tracking-widest text-green-500">TITLE</label>
+                                            <input v-model="newTask.title" type="text" name="done-title" id="done-title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="mt-2 mx-3">
+                                            <label for="done-description" class="block text-xs font-semibold antialiased tracking-widest text-green-500">DESCRIPTION</label>
+                                            <textarea v-model="newTask.description" id="done-description" name="done-description" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"></textarea>
+                                        </div>
+                                        <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
+                                            <label for="done-duedate" class="block text-xs font-semibold antialiased tracking-widest text-green-500">DUE DATE</label>
+                                            <input v-model="formDueDate" type="date" name="done-duedate" id="done-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                        </div>
+                                        <div class="px-2 py-3 sm:px-3 ">
+                                            <button @click="hideForm_done()" class="inline-flex justify-center py-1 px-3 border border-transparent text-sm font-normal rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Save
+                                            </button>
+                                            <button @click="hideForm_done()" type="button" class="inline-flex justify-center py-1 px-3 border border-transparent text-sm font-normal rounded-md text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+        
+                            </div>
+                        </section>
+                        <!-- END - ADD NEW DONE -->
+    
+                    </div>
+                    <!-- END - DONE -->
+    
+                </div>
+    
+    
+                <!-- /End replace -->
+              </div>
+            </main>
+        </section>
+        <!-- END ––– MAIN HOMEPAGE CONTAINER -->
 
-            <!-- /End replace -->
-          </div>
-        </main>
-        <!-- END ––– MAIN CONTENT CONTAINER -->
+        <!-- START ––– REGISTER CONTAINER -->
+        <section v-else-if="currentPage == 'register' && !login">
+            <div id="register-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8">
 
+                <div id="register-sub-section">
+                    <img class="mx-auto h-40 w-auto" src="./img/Kanban-Logo-04.png" alt="Kanban Logo">
+                    <h2 class="mt-4 text-center text-3xl font-extrabold">
+                    <span class="text-indigo-500">Create</span><span class="text-gray-200"> an account</span> 
+                    </h2>
+                    <p class="mt-2 text-center text-sm text-gray-200">
+                    Already registered?
+                    <a href="#" @click="currentPage = 'login'" id="login-link" class="font-medium text-indigo-400 hover:text-indigo-500">
+                        Click here to login!
+                    </a>
+                    </p>
+                </div>
+
+                <form id="register-form" class="mt-8 space-y-6" action="#" method="POST">
+                    <input type="hidden" name="remember" value="true">
+                    <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="register-email" class="sr-only">Email address</label>
+                        <input id="register-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                    </div>
+                    <div>
+                        <label for="register-password" class="sr-only">Password</label>
+                        <input id="register-password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                    </div>
+            
+            
+                    <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                        <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                        </svg>
+                        </span>
+                        Submit
+                    </button>
+                    </div>
+                </form>
+
+                </div>
+            </div>
+        </section>
+        <!-- END ––– REGISTER CONTAINER -->
+
+        <!-- START ––– LOGIN CONTAINER -->
+        <section v-else-if="currentPage == 'login' && !login">
+            <div id="login-section" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8">
+        
+                <div id="login-sub-section">
+                    <img class="mx-auto h-40 w-auto" src="./img/Kanban-LogoYellow-05.png" alt="Kanban Logo">
+                    <h2 class="mt-4 text-center text-3xl font-extrabold text-gray-900">
+                        <span class="text-yellow-500">Log in</span><span class="text-gray-200"> to your account</span>
+                    </h2>
+                    <p class="mt-2 text-center text-sm text-gray-200">
+                    Unregistered?
+                    <a href="#" @click="currentPage = 'register'" id="register-link" class="font-medium text-yellow-500 hover:text-yellow-400">
+                        Click here to register!
+                    </a>
+                    </p>
+                </div>
+        
+                <form id="login-form" class="mt-8 space-y-6" action="#" method="POST">
+                    <input type="hidden" name="remember" value="true">
+                    <div class="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <label for="login-email" class="sr-only">Email address</label>
+                        <input id="login-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                    </div>
+                    <div>
+                        <label for="login-password" class="sr-only">Password</label>
+                        <input id="login-password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    </div>
+                    </div>
+            
+            
+                    <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                        <svg class="h-5 w-5 text-yellow-600 group-hover:text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                        </svg>
+                        </span>
+                        Sign in
+                    </button>
+                    </div>
+                </form>
+        
+                <div id="login-oauth-section">
+                    
+                    <p class="mt-2 text-center font-bold text-sm text-yellow-500">
+                    Or sign in with one of these accounts:
+                    </p>
+                </div>
+                <div class="flex items-center justify-center">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </div>
+                <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+                </div>
+            </div>
+        </section>
+        <!-- END ––– LOGIN CONTAINER -->
+
+        </div>
     </div>
-
+</div>
     <!-- LOGIN GOOGLE -->
     <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     <!-- !!! SCRIPTS !!! -->
     <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="main.js"></script>
+    
 </body>
 </html>

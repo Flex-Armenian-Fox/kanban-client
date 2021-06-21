@@ -10,12 +10,12 @@
     <link rel="stylesheet", href="styles.css"/>
 </head>
 <body>
-  <div class="app">
+  <div class="app" id="app">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <i href="#" id="edit-task" class="fas fa-edit"></i>
-          Kanban Board
+          {{title}}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -30,6 +30,25 @@
       </div>
     </nav>
     
+    <section id="login-form" class="card" style="vertical-align: middle; padding: 20;">
+      <form class="card border-secondary" style="width: 60%; align-content: center;">
+        <div class="row mb-3">
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputEmail3">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword3">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button type="button" class="btn btn-primary">Register New User</button>
+      </form>
+    </section>
+
     <div class="modal fade" id="form-task-modal" tabindex="-1" aria-labelledby="form-task-ModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -41,9 +60,9 @@
             <form>
               <div class="mb-3">
                 <label for="task-text" class="col-form-label">Task:</label>
-                <textarea class="form-control" id="task-text"></textarea>
+                <textarea v-model="taskData.title" class="form-control" id="task-text"></textarea>
               </div>
-              <select class="form-select" aria-label="Kanban Location">
+              <select v-model="taskData.category" class="form-select" aria-label="Kanban Location">
                 <option selected>Kanban Location</option>
                 <option value="Backlog">Backlog</option>
                 <option value="Product">Product</option>
@@ -54,161 +73,124 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button @click="addTask()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="kanban">
+
+    <section id="kanban" class="kanban">
       <div class="kanban-container bg-light">
         <div class="kanban-column">
           <div class="kanban-column-header">
             Backlog
           </div>
           <ul class="kanban-column-list">
-            <li class="card border-secondary mb-3" style="max-width: 18rem;">
+            <li v-for="(item, i) in getData('Backlog')" :key="i" class="card border-secondary mb-3" style="max-width: 18rem;">
               <div class="card-header card-header-addon">
-                <div>Posted : Budi</div>
+                <!-- {{item}} -->
+                <div>Posted : {{item.user.email.split("@")[0]}}</div>
                 <div>
-                  <i href="#" id="edit-task" class="fas fa-edit"></i>
-                  <i href="#" id ="delete-task" class="fas fa-trash"></i>
+                  <i @click="showEditTask(item)" id="edit-task" class="fas fa-edit"  data-bs-toggle="modal" data-bs-target="#form-task-modal"></i>
+                  <i @click="deleteTask(item.id)" id ="delete-task" class="fas fa-trash"></i>
                 </div>
               </div>
               <div class="card-body text-secondary">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              </div>
-            </li>
-            <li class="card border-secondary mb-3" style="max-width: 18rem;">
-              <div class="card-header card-header-addon">
-                <div>Posted : Budi</div>
-                <div>
-                  <i href="#" id="edit-task" class="fas fa-edit"></i>
-                  <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                </div>
-              </div>
-              <div class="card-body text-secondary">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">{{item.title}}</p>
               </div>
             </li>
           </ul>
           <div class="kanban-column-footer">
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
+              <button @click="showAddTask('Backlog')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
             </div>
           </div>
         </div>
+
         <div class="kanban-column">
             <div class="kanban-column-header">
                 Product
             </div>
             <ul class="kanban-column-list">
-              <li class="card border-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header card-header-addon">
-                  <div>Posted : Budi</div>
-                  <div>
-                    <i href="#" id="edit-task" class="fas fa-edit"></i>
-                    <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                  </div>
+              <li v-for="(item, i) in getData('Product')" :key="i" class="card border-secondary mb-3" style="max-width: 18rem;">
+              <div class="card-header card-header-addon">
+                <!-- {{item}} -->
+                <div>Posted : {{item.user.email.split("@")[0]}}</div>
+                <div>
+                  <i id="edit-task" class="fas fa-edit"  data-bs-toggle="modal" data-bs-target="#form-task-modal"></i>
+                  <i href="#" id ="delete-task" class="fas fa-trash"></i>
                 </div>
-                <div class="card-body text-secondary">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </li>
-              <li class="card border-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header card-header-addon">
-                  <div>Posted : Budi</div>
-                  <div>
-                    <i href="#" id="edit-task" class="fas fa-edit"></i>
-                    <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                  </div>
-                </div>
-                <div class="card-body text-secondary">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </li>
+              </div>
+              <div class="card-body text-secondary">
+                <p class="card-text">{{item.title}}</p>
+              </div>
+            </li>
             </ul>
             <div class="kanban-column-footer">
               <div class="d-grid gap-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
+                <button @click="showAddTask('Product')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
               </div>
             </div>
         </div>
+
         <div class="kanban-column">
             <div class="kanban-column-header">
                 Development
             </div>
             <ul class="kanban-column-list">
-              <li class="card border-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header card-header-addon">
-                  <div>Posted : Budi</div>
-                  <div>
-                    <i href="#" id="edit-task" class="fas fa-edit"></i>
-                    <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                  </div>
+              <li v-for="(item, i) in getData('Development')" :key="i" class="card border-secondary mb-3" style="max-width: 18rem;">
+              <div class="card-header card-header-addon">
+                <!-- {{item}} -->
+                <div>Posted : {{item.user.email.split("@")[0]}}</div>
+                <div>
+                  <i id="edit-task" class="fas fa-edit"  data-bs-toggle="modal" data-bs-target="#form-task-modal"></i>
+                  <i href="#" id ="delete-task" class="fas fa-trash"></i>
                 </div>
-                <div class="card-body text-secondary">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </li>
-              <li class="card border-secondary mb-3" style="max-width: 18rem;">
-                <div class="card-header card-header-addon">
-                  <div>Posted : Budi</div>
-                  <div>
-                    <i href="#" id="edit-task" class="fas fa-edit"></i>
-                    <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                  </div>
-                </div>
-                <div class="card-body text-secondary">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </li>
+              </div>
+              <div class="card-body text-secondary">
+                <p class="card-text">{{item.title}}</p>
+              </div>
+            </li>
             </ul>
             <div class="kanban-column-footer">
               <div class="d-grid gap-2">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
+                <button @click="showAddTask('Development')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
               </div>
             </div>
         </div>
+
         <div class="kanban-column">
           <div class="kanban-column-header">
               Done
           </div>
           <ul class="kanban-column-list">
-            <li class="card border-secondary mb-3" style="max-width: 18rem;">
+            <li v-for="(item, i) in getData('Done')" :key="i" class="card border-secondary mb-3" style="max-width: 18rem;">
               <div class="card-header card-header-addon">
-                <div>Posted : Budi</div>
+                <!-- {{item}} -->
+                <div>Posted : {{item.user.email.split("@")[0]}}</div>
                 <div>
-                  <i href="#" id="edit-task" class="fas fa-edit"></i>
+                  <i id="edit-task" class="fas fa-edit"  data-bs-toggle="modal" data-bs-target="#form-task-modal"></i>
                   <i href="#" id ="delete-task" class="fas fa-trash"></i>
                 </div>
               </div>
               <div class="card-body text-secondary">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              </div>
-            </li>
-            <li class="card border-secondary mb-3" style="max-width: 18rem;">
-              <div class="card-header card-header-addon">
-                <div>Posted : Budi</div>
-                <div>
-                  <i href="#" id="edit-task" class="fas fa-edit"></i>
-                  <i href="#" id ="delete-task" class="fas fa-trash"></i>
-                </div>
-              </div>
-              <div class="card-body text-secondary">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="card-text">{{item.title}}</p>
               </div>
             </li>
           </ul>
           <div class="kanban-column-footer">
             <div class="d-grid gap-2">
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
+              <button @click="showAddTask('Done')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form-task-modal">Add a Card</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

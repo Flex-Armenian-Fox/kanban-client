@@ -10,7 +10,6 @@ const app = new Vue({
       done: false,
     },
     title: '',
-    // tasks: [],
     tasks: {
       backlog: [],
       todo: [],
@@ -93,7 +92,7 @@ const app = new Vue({
         });
     },
     moveTask(task) {
-      const { title, category, id } = task;
+      const { category, id } = task;
 
       for (const cat in this.add) {
         if (this.add[cat]) this.add[cat] = false;
@@ -109,16 +108,15 @@ const app = new Vue({
       else if (category == 'todo') newCategory = 'doing';
       else if (category == 'doing') newCategory = 'done';
       if (category != 'done') {
-        this.tasks[newCategory].push({
-          title,
-          category: newCategory,
-        });
+        this.tasks[newCategory].push(task);
+      } else {
+        this.deleteTask(task);
       }
 
       const data = {
         category: newCategory,
       };
-      console.log(data);
+      // console.log(data);
       fetch('http://localhost:3000/tasks/' + id, {
         method: 'PUT',
         headers: {
@@ -131,8 +129,8 @@ const app = new Vue({
           return res.json();
         })
         .then((res) => {
+          this.tasks[category] = this.tasks[category].filter((el) => el.id != id);
           console.log(res);
-          this.deleteTask(task);
         });
     },
     editTask(task, i) {
@@ -141,7 +139,7 @@ const app = new Vue({
       const data = {
         title: this.editedTitle,
       };
-      console.log(data);
+      // console.log(data);
       fetch('http://localhost:3000/tasks/' + id, {
         method: 'PUT',
         headers: {
@@ -198,7 +196,9 @@ const app = new Vue({
     },
 
     // drag and frop
-    startDrag(event, category, i) {
+    startDrag(event, task, i) {
+      const { category } = task;
+
       event.dataTransfer.dropEffect = 'move';
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('movedCategory', category);
@@ -212,7 +212,7 @@ const app = new Vue({
       const movedTask = this.tasks[movedCategory][movedIndex];
       this.title = movedTask.title;
       this.addTask(category);
-      this.deleteTask(movedTask.title, movedTask.category);
+      this.deleteTask(movedTask);
     },
 
     // connect to server

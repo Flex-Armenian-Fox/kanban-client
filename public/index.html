@@ -50,7 +50,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.backlog" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
+              <div v-for="(task, i) in tasks.backlog" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
@@ -125,7 +125,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.todo" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
+              <div v-for="(task, i) in tasks.todo" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
@@ -200,7 +200,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.doing" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
+              <div v-for="(task, i) in tasks.doing" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
@@ -275,7 +275,7 @@
               </div>
               <!-- tasks go here -->
 
-              <div v-for="(task, i) in tasks.done" class="content" draggable="true" @dragStart="startDrag($event, task.category, i)">
+              <div v-for="(task, i) in tasks.done" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
                 <div :id="`card-${task.category}-${i}`">
                   <div class="flex justify-between items-center">
                     <p class="text-xs text-gray-500">{{ task.createdAt }}</p>

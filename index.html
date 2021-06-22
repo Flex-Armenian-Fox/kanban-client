@@ -84,7 +84,7 @@
                 <!-- Replace with your content -->
     
     
-                <div class="flex flex-row justify-center px-4 py-6 mx-4 min-w-min sm:px-0">
+                <div class="flex flex-row justify-center items-start px-4 py-6 mx-4 min-w-min sm:px-0">
     
                     <!-- START - BACKLOG -->
                     <div class="bg-gray-200 m-4 pb-1 shadow-md rounded-lg min-h-full max-h-full max-w-2xl">
@@ -151,10 +151,12 @@
                                             <label for="backlog-description" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">DESCRIPTION</label>
                                             <textarea v-model="newTask.description" id="backlog-description" name="backlog-description" rows="2" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-200 rounded-md"></textarea>
                                         </div>
-                                        <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
-                                            <label for="backlog-duedate" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">DUE DATE</label>
-                                            <input v-model="formDueDate" type="date" name="backlog-duedate" id="backlog-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
-                                        </div>
+                                        <section>
+                                            <div class="col-span-6 sm:col-span-3 lg:col-span-2 mt-2 mx-3">
+                                                <label for="backlog-duedate" class="block text-xs font-semibold antialiased tracking-widest text-gray-400">DUE DATE</label>
+                                                <input v-model="formDueDate" type="date" name="backlog-duedate" id="backlog-duedate" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-200 rounded-md">
+                                            </div>
+                                        </section>
                                         <div class="px-2 py-3 sm:px-3 ">
                                             <button @click="hideForm_backlog()" class="inline-flex justify-center py-1 px-3 border border-transparent shadow-sm text-sm font-normal rounded-md text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                             Save
@@ -566,6 +568,7 @@
     <!-- !!! SCRIPTS !!! -->
     <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="main.js"></script>
     
 </body>

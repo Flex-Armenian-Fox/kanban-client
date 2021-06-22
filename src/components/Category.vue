@@ -23,7 +23,7 @@
       </div>
       <!-- tasks go here -->
 
-      <div v-for="(task, i) in tasks[category]" :key="task.id" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
+      <div v-for="(task, i) in categorizedTasks[category]" :key="task.id" class="content" draggable="true" @dragstart="startDrag($event, task.id)">
         <div :id="`card-${task.category}-${i}`">
           <div class="flex justify-between items-center">
             <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
@@ -95,12 +95,7 @@ export default {
         done: false,
       },
       title: '',
-      tasks: {
-        backlog: [],
-        todo: [],
-        doing: [],
-        done: [],
-      },
+      tasks: [],
       editedTitle: '',
       selected: '',
       edit: {
@@ -110,6 +105,19 @@ export default {
         done: [],
       },
     };
+  },
+  computed: {
+    categorizedTasks() {
+      let categorized = {};
+      // console.log(JSON.parse(JSON.stringify(this.tasks)));
+      this.tasks.forEach((el) => {
+        el.createdAt = this.dateFormat(el.createdAt);
+        if (categorized[el.category] == undefined) categorized[el.category] = [];
+        categorized[el.category].push(el);
+      });
+      this.fetchData();
+      return categorized;
+    },
   },
   methods: {
     addButton(category) {
@@ -125,14 +133,6 @@ export default {
       }
     },
     addTask(category) {
-      // this.tasks[category].push({
-      //   title: this.title,
-      //   category,
-      // });
-
-      // this.add[category] = false;
-      // this.title = '';
-
       const data = {
         title: this.title,
         category,
@@ -149,20 +149,12 @@ export default {
           return res.json();
         })
         .then((res) => {
-          console.log(res.data);
-          res.data.createdAt = this.dateFormat(res.data.createdAt);
-          this.tasks[res.data.category].push(res.data);
           this.add[category] = false;
           this.title = '';
+          console.log(res);
         });
     },
-    deleteTask(task) {
-      // this.tasks[category] = this.tasks[category].filter((el) => el.title != title);
-
-      const { category, id } = task;
-
-      this.tasks[category] = this.tasks[category].filter((el) => el.id != id);
-
+    deleteTask(id) {
       fetch('http://localhost:3000/tasks/' + id, {
         method: 'DELETE',
         headers: {
@@ -193,16 +185,11 @@ export default {
       if (category == 'backlog') newCategory = 'todo';
       else if (category == 'todo') newCategory = 'doing';
       else if (category == 'doing') newCategory = 'done';
-      if (category != 'done') {
-        this.tasks[newCategory].push(task);
-      } else {
-        this.deleteTask(task);
-      }
+      else if (category == 'done') this.deleteTask(task.id);
 
       const data = {
         category: newCategory,
       };
-      // console.log(data);
       fetch('http://localhost:3000/tasks/' + id, {
         method: 'PUT',
         headers: {
@@ -215,7 +202,6 @@ export default {
           return res.json();
         })
         .then((res) => {
-          this.tasks[category] = this.tasks[category].filter((el) => el.id != id);
           console.log(res);
         });
     },
@@ -225,7 +211,6 @@ export default {
       const data = {
         title: this.editedTitle,
       };
-      // console.log(data);
       fetch('http://localhost:3000/tasks/' + id, {
         method: 'PUT',
         headers: {
@@ -239,7 +224,6 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.tasks[category][i].title = this.editedTitle;
           this.editedTitle = '';
           document.querySelector(`#edit-${category}-${i}`).style.display = 'none';
           document.querySelector(`#card-${category}-${i}`).style.display = 'block';
@@ -252,13 +236,10 @@ export default {
       document.querySelector(`#card-${category}-${i}`).style.display = 'block';
     },
     option(task, i) {
-      const { category, title } = task;
+      const { category, id } = task;
       if (this.selected == 'delete') {
-        this.deleteTask(task);
+        this.deleteTask(id);
       } else if ((this.selected = 'edit')) {
-        // this.edit[category] = true;
-        // console.log(this.$refs[`index-${i}`]);
-        // this.$refs[`index-${i}`].style.display = 'block';
         for (const cat in this.add) {
           if (this.add[cat]) this.add[cat] = false;
         }
@@ -276,34 +257,48 @@ export default {
         // console.log(JSON.parse(JSON.stringify(this.edit[category])));
         document.querySelector(`#edit-${category}-${i}`).style.display = 'flex';
         document.querySelector(`#card-${category}-${i}`).style.display = 'none';
-        this.editedTitle = this.tasks[category][i].title;
+        this.tasks.forEach((el) => {
+          if (el.id == id) {
+            this.editedTitle = el.title;
+          }
+        });
       }
       this.selected = '';
     },
 
     // drag and frop
-    startDrag(event, task, i) {
-      const { category } = task;
-
+    startDrag(event, id) {
       event.dataTransfer.dropEffect = 'move';
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('movedCategory', category);
-      event.dataTransfer.setData('movedIndex', i);
+      event.dataTransfer.setData('movedId', id);
     },
 
     onDrop(event, category) {
-      const movedCategory = event.dataTransfer.getData('movedCategory');
-      const movedIndex = event.dataTransfer.getData('movedIndex');
-      console.log(movedCategory, movedIndex);
-      const movedTask = this.tasks[movedCategory][movedIndex];
-      this.title = movedTask.title;
-      this.addTask(category);
-      this.deleteTask(movedTask);
+      console.log(event);
+      const movedId = event.dataTransfer.getData('movedId');
+
+      const data = {
+        category,
+      };
+      fetch('http://localhost:3000/tasks/' + movedId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+        });
     },
 
     // connect to server
     fetchData() {
-      return fetch('http://localhost:3000/tasks', {
+      fetch('http://localhost:3000/tasks', {
         method: 'GET',
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
@@ -313,25 +308,17 @@ export default {
           return res.json();
         })
         .then((res) => {
-          return res.data;
-        });
+          this.tasks = res.data;
+        })
+        .catch((err) => console.log(err));
     },
 
     dateFormat(date) {
       return `${new Date(date).getDate()}-${new Date(date).toLocaleString('default', { month: 'short' })}`;
     },
   },
-  async created() {
-    console.log(await this.fetchData());
-    try {
-      let tasks = await this.fetchData();
-      tasks.map((el) => {
-        el.createdAt = this.dateFormat(el.createdAt);
-        this.tasks[el.category].push(el);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  created() {
+    this.fetchData();
     // console.log(JSON.parse(JSON.stringify(this.tasks)));
   },
 };

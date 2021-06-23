@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Landing 
-            :server="server" 
+        <Landing             
             @LoggedIn="isLogin=true"
             v-if="!isLogin"
         ></Landing>
@@ -22,8 +21,7 @@ export default {
     data() {
         return {
             message: "This is v1.2",
-            isLogin: false,
-            server: "http://localhost:3000/api"
+            isLogin: false            
         };
     },
     created: function() {

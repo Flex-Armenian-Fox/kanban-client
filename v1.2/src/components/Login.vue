@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "../utils/server-helper.js"
+
 
 export default {
     name: "Login",
-    props: ["server"],
     data() {
         return {
             formLogin: {
@@ -60,7 +60,7 @@ export default {
         login() {
             axios({
                 method: 'POST',
-                url: `${this.server}/users/login`,
+                url: '/users/login',
                 data: {
                     email: this.formLogin.email,
                     password: this.formLogin.password

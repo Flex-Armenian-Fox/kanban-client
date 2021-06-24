@@ -1,9 +1,14 @@
 <template>
     <div>
-        <Navbar @LoggedOut="$emit('LoggedOut')"></Navbar>
+        <Navbar @LoggedOut="$emit('LoggedOut')" @clickAction="updatePage"></Navbar>
         <section>
             <div class="columns is-flex-direction-column is-align-items-stretch is-justify-content-center">
-                <Category :taskData="tasks"></Category>
+                <Category 
+                    v-if="page === 'home'" 
+                    :taskData="tasks"
+                    @refetch="fetchData"
+                ></Category>
+                <AddTask @submitted="updatePage" v-else-if="page === 'addTask'"></AddTask>
             </div>
         </section>
     </div>
@@ -12,17 +17,23 @@
 <script>
 import Category from "../components/Category.vue";
 import Navbar from "../components/Navbar.vue";
+import AddTask from "../components/AddTask.vue";
 import axios from "../utils/server-helper.js";
 
 export default {
     name: "Home",    
-    components: { Category, Navbar },
+    components: { Category, Navbar, AddTask },
     data() {
         return {
-            tasks: []
+            tasks: [],
+            page: "home"
         };
     },
     methods: {
+        updatePage(value) {
+            this.page = value
+            if (this.page === 'home') this.fetchData()
+        },
         fetchData() {
             axios({
                 method: "GET",
@@ -40,7 +51,6 @@ export default {
         }
     },
     created() {        
-        // console.log("isi taskbyCat", this.taskByCategory);
         this.fetchData()
     }    
 };

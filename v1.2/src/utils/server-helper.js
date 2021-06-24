@@ -1,8 +1,7 @@
 import axios from "axios"
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3000/api',
-    timeout: 1000,
+    baseURL: 'https://antonp-kanban-server.herokuapp.com/api',
     headers: { 'Content-Type': 'application/json' }
 });
 

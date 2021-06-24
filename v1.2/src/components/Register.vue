@@ -2,7 +2,7 @@
     <div class="column is-half">
         <form @submit.prevent="register" class="box">
             <div class="has-text-centered is-size-3 is-family-sans-serif has-text-weight-bold">
-                <!-- <p class="subtitle has-text-danger" v-text="loginState.registerMessage" ></p> -->
+                <p class="subtitle has-text-danger" v-text="registerMessage" ></p>
                 <h1>Register New User</h1>
             </div>
             <div class="field">
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import axios from "../utils/server-helper.js"
+
 export default {
     name: "Register",
     data() {
@@ -54,32 +56,41 @@ export default {
                 fullname: ""
             },
             submitted: false,
+            registerMessage: ""
         }
     },
     methods: {
-        register: function() {
-            // this.submitted = true
-            // axios({
-            //     method: 'POST',
-            //     url: `${this.serverUrl}/users/register`,
-            //     data: {
-            //         email: this.formRegister.email,
-            //         password: this.formRegister.password,
-            //         full_name: this.formRegister.fullname
-            //     }                
-            // })
-            // .then(() => {
-            //     swal("Register Succes", "Register New User Success, you will be redirected to login page", "success")
-            //     this.submitted = false
-            //     this.loginState.isRegister = false
-            //     this.emptyForm()
-            // })
-            // .catch(err => {
-            //     console.log("error register", err.response.data);
-            //     const { error } = err.response.data
-            //     this.loginState.registerMessage = error.message
-            //     this.submitted = false
-            // })
+        register() {
+            this.submitted = true
+            axios({
+                method: 'POST',
+                url: '/users/register',
+                data: {
+                    email: this.formRegister.email,
+                    password: this.formRegister.password,
+                    full_name: this.formRegister.fullname
+                }                
+            })
+            .then(() => {
+                swal("Register Succes", "Register New User Success, you will be redirected to login page", "success")
+                this.submitted = false
+                this.formRegister.email = ""
+                this.formRegister.password = ""
+                this.formRegister.fullname = ""
+                this.$emit('cancelRegister')
+            })
+            .catch(err => {
+                console.log("Error register", err);
+                const { error } = err.response.data
+                this.submitted = false
+
+                if (error.name == 'SequelizeUniqueConstraintError') {
+                    this.registerMessage = 'Email already registered'
+                } else {
+                    this.registerMessage = error.message
+                }
+                
+            })
         },
     }
 };

@@ -13,6 +13,7 @@
                 :category="category"
                 :key="category.id"
                 :categories="categories"
+                @refetch="$emit('refetch')"
             ></TaskCard>            
         </div>
     </div>

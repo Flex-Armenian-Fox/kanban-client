@@ -28,6 +28,20 @@
                     <button @click.prevent="$emit('registerClick')" class="button"> Register </button>
                 </p>
             </div>
+            <div class="field is-grouped">
+                <p class="control has-text-centered is-family-sans-serif is-size-6">
+                    --OR--
+                </p>
+            </div>
+            <div class="field is-grouped">
+                <p class="control">
+                    <GoogleLogin 
+                        :params="params"
+                        :renderParams="renderParams"
+                        :onSuccess="googleSignIn"
+                    ></GoogleLogin>
+                </p>
+            </div>
         </form>
     </div>
     <!-- END LOGIN -->
@@ -35,10 +49,11 @@
 
 <script>
 import axios from "../utils/server-helper.js"
-
+import GoogleLogin from "vue-google-login"
 
 export default {
     name: "Login",
+    components: { GoogleLogin },
     data() {
         return {
             formLogin: {
@@ -49,6 +64,14 @@ export default {
                 loginMessage: "",
                 registerMessage: "",
                 isRegister: false
+            },
+            params: {
+                client_id: '265426479351-kdh0fa6ll05bssj1t6kvaa3of7qhrg8q.apps.googleusercontent.com'
+            },
+            renderParams: {
+                width: 170,
+                height: 30,
+                longtitle: true
             }
         }
     },
@@ -56,6 +79,26 @@ export default {
         emptyForm() {
             this.formLogin.email = ""
             this.formLogin.password = ""            
+        },
+        googleSignIn(googleuser) {
+            axios({
+                method: 'POST',
+                url: '/users/google-login',
+                data: {
+                    google_token: googleuser.getAuthResponse().id_token
+                }
+            })
+            .then(res => {
+                const { data } = res.data
+                localStorage.setItem("access_token", data.access_token)
+                this.emptyForm()
+                this.$emit('LoggedIn', true)
+            })
+            .catch(err => {
+                const { error } = err.response.data
+                this.emptyForm()
+                this.loginState.loginMessage = error.message
+            })
         },
         login() {
             axios({
@@ -67,7 +110,6 @@ export default {
                 }
             })
             .then(res => {
-                console.log("hasil dari res", res);
                 const { data } = res.data
                 localStorage.setItem("access_token", data.access_token)
                 this.emptyForm()
@@ -75,7 +117,6 @@ export default {
             })
             .catch(err => {
                 const { error } = err.response.data
-                console.log("error login", err)
                 this.emptyForm()
                 this.loginState.loginMessage = error.message
             })

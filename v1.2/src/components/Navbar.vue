@@ -22,8 +22,7 @@
 
                 <div id="navbarBasicExample" class="navbar-menu">
                     <div class="navbar-start">
-                        <!-- <a @click="fetchData()" class="navbar-item">Home</a> -->
-                        <a class="navbar-item">Home</a>
+                        <a @click="$emit('clickAction', 'home')" class="navbar-item">Home</a>
                         <a
                             href="https://github.com/antonprio/kanban-server/blob/master/API%20Doc.md"
                             target="_blank"
@@ -34,9 +33,7 @@
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link">More</a>
                             <div class="navbar-dropdown">
-                                <!-- <a @click="isData = false" class="navbar-item">Add Task</a> -->
-                                <a class="navbar-item">Add Task</a>
-                                <a class="navbar-item">My Task</a>
+                                <a @click="$emit('clickAction', 'addTask')" class="navbar-item">Add Task</a>
                             </div>
                         </div>
                     </div>
@@ -44,7 +41,6 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <!-- <a @click="logout" class="button is-danger">Log Out</a> -->
                                 <a @click="logout()" class="button is-danger">Log Out</a>
                             </div>
                         </div>
@@ -60,14 +56,14 @@ export default {
     name: "Navbar",
     data() {
         return {
-
+            page: "home"
         }
     },
     methods: {
         logout() {
             localStorage.clear()
             this.$emit('LoggedOut')
-        }
+        },
     }
 };
 </script>

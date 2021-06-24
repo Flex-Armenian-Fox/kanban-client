@@ -1,16 +1,25 @@
 <template>
-    <div class="d-flex flex-row justify-content-between my-4 row">
-        <Category v-for="(list, category) in tasks" :key="category" :taskList="list" :category="category" @putCat="putCat(category)" @fetchData="fetchData" @getTarget="getTarget"></Category>
-        
+    <div>
+        <TaskForm v-if="taskForm" @fetchData="fetchData" @formToggle="formToggle" :tasks="tasks"></TaskForm>
+        <form class="float-right mr-3 my-3" @submit.prevent="newCategory">
+            <div class="input-group">
+                <input class="form-control" type="text" v-model="catName" placeholder="New Category"> <button type="submit" class="btn btn-primary input-group-btn">New Category</button>
+            </div>
+        </form> <br><br>
+        <div class="d-flex flex-row my-4 row">
+            <Category v-for="(list, category) in tasks" :key="category" :taskList="list" :category="category" @putCat="putCat(category)" @fetchData="fetchData" @getTarget="getTarget"></Category>
+        </div>
     </div>
 </template>
 
 <script>
 import Category from '../components/Category.vue'
 import axios from '../util/axios'
+import TaskForm from '../components/TaskForm.vue'
+import Swal from 'sweetalert2'
 export default {
     components:{
-        Category
+        Category, TaskForm
     },
     data(){
         return{
@@ -21,8 +30,11 @@ export default {
                 doing: [],
                 done: [],
             },
+            test: true,
+            catName: null
         }
     },
+    props: ["taskForm"],
     methods: {
         fetchData(){
             console.log('fetching data')
@@ -43,7 +55,7 @@ export default {
                 console.log(this.tasks)
             })
             .catch(err => {
-                console.error(err); 
+                Swal.fire('Error', err.response.data.message, 'error') 
             })
         },
         getTarget(target){
@@ -60,9 +72,18 @@ export default {
                 this.fetchData()
             })
             .catch(err => {
-                console.error(err); 
+               Swal.fire('Error', err.response.data.message, 'error'); 
             })
         },
+        formToggle(){
+            this.$emit('formToggle')
+        },
+        newCategory(){
+            if (this.catName){
+                this.tasks[this.catName] = []
+                this.catName = null
+            }
+        }
     },
     created(){
         this.fetchData()

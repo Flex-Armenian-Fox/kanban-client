@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-xl-3 my-1 justify-content-center"  @drop='putCat()' @dragenter.prevent @dragover.prevent>
+  <div class="col-12 col-xl-3 my-1 justify-content-center"  @drop='putCat' @dragenter.prevent @dragover.prevent>
         <div class="d-flex w-75 flex-column rounded-lg bg-dark pb-4 mx-auto">
             <div class="text-3xl text-bold text-white uppercase ml-4 my-2">{{category}}</div>
             <!-- Start backlog loop-->
@@ -20,10 +20,6 @@ export default {
         }
     },
     props: ["taskList", "category"],
-    created(){
-        console.log(this.taskList)
-        console.log("-----------------------------------------")
-    },
     methods: {
         fetchData(){
             this.$emit('fetchData')

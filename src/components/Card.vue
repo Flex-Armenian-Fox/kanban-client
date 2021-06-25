@@ -38,19 +38,15 @@ import axios from '../util/axios'
 export default {
     props:["task"],
     created(){
-        console.log('card created')
-        console.log(this.task)
     },
     methods: {
         blurIfEnter(e){
             if (e.keyCode==13){
                 e.preventDefault()
-                console.log(e)
                 e.srcElement.blur()
             }
         },
         dragStart(){
-            console.log(this.task)
             this.$emit('dragTask', this.task)
         },
         putName(event){
@@ -90,21 +86,23 @@ export default {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
-                type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             })
-                .then(() => {
-                    axios.delete(`/tasks/${target.id}`, {headers: {access_token: localStorage.access_token}})
-                    .then(res => {
-                        this.$emit('fetchData')
-                    })
-                    .catch(err => {
-                        Swal('error', err.response.data.message, 'error')
-                        this.$emit('fetchData')
-                    })
+                .then((result) => {
+                    if(result.value){
+                        axios.delete(`/tasks/${target.id}`, {headers: {access_token: localStorage.access_token}})
+                        .then(res => {
+                            console.log('deleted')
+                            this.$emit('fetchData')
+                        })
+                        .catch(err => {
+                            Swal('error', err.response.data.message, 'error')
+                            this.$emit('fetchData')
+                        })
+                    }
                 })
 
         }

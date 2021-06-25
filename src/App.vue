@@ -26,7 +26,6 @@ export default {
             else this.isLoggedIn = false
         },
         formToggle(){
-            console.log('a')
             this.taskForm = (this.taskForm)? false :true
         }
     },

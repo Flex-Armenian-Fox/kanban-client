@@ -46,13 +46,11 @@ export default {
                 }
             axios.get(`/tasks`, {headers: {access_token: localStorage.access_token}})
             .then(res => {
-                console.log(res)
                 res.data.forEach(el => {
                     if (el.deadline){el.deadline = el.deadline.slice(0,10)}
                     if (!this.tasks[el.category]) {this.tasks[el.category] = []}
                     this.tasks[el.category].push(el)
                 })
-                console.log(this.tasks)
             })
             .catch(err => {
                 Swal.fire('Error', err.response.data.message, 'error') 

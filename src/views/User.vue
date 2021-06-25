@@ -84,7 +84,6 @@ export default {
           axios.post('/glogin/',{idToken: id_token})
           .then(res => {
             localStorage.access_token = res.data.access_token
-            console.log('google curse')
             this.$emit("checkAuth")
           })
           .catch(err => {

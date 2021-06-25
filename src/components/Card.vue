@@ -62,7 +62,7 @@ export default {
                     this.$emit('fetchData')
                 })
                 .catch(err => {
-                    Swal.fire('error', err.response.data.message, 'error')
+                    Swal.fire('error', err.response.data?.message, 'error')
                     this.$emit('fetchData')
                 })
             }
@@ -77,7 +77,7 @@ export default {
                 this.$emit('fetchData')
             })
             .catch(err => {
-                Swal.fire('error', err.response.data.message, 'error')
+                Swal.fire('error', err.response.data?.message, 'error')
                 this.$emit('fetchData')
             })
         },
@@ -99,7 +99,7 @@ export default {
                             this.$emit('fetchData')
                         })
                         .catch(err => {
-                            Swal('error', err.response.data.message, 'error')
+                            Swal('error', err.response.data?.message, 'error')
                             this.$emit('fetchData')
                         })
                     }

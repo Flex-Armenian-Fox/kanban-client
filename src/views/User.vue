@@ -14,11 +14,11 @@
         </div> <br>
         <button type="submit" class="btn btn-primary">Login</button> <button type="button" class="btn btn-secondary" @click="registerForm">Register</button>
         <p>or login with</p>
-        <div id="google-signin-button"></div>
+        <div v-if="!reg" id="google-signin-button"></div>
       </form>
     </div>
     
-    <div class="col-4 mx-auto my-4" id="reg-block" v-if="reg">
+    <div class="col-4 mx-auto my-4" id="reg-block" v-else>
       <h1 class="text-3xl font-bold text-center">Register</h1>
       <div class="text-md font-bold text-center text-red-700" id="login-error">{{errMsg}}</div>
       <form id="login-form" @submit.prevent="register">
@@ -75,7 +75,8 @@ export default {
                 this.$emit("checkAuth")
             })
             .catch(err => {
-                this.errMsg = err.response.data.message
+                console.log(err)
+                this.errMsg = err.response.data?.message
             })
         },
         gSignIn (user) {

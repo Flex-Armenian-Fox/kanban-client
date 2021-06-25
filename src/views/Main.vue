@@ -53,7 +53,7 @@ export default {
                 })
             })
             .catch(err => {
-                Swal.fire('Error', err.response.data.message, 'error') 
+                Swal.fire('Error', err.response.data?.message, 'error') 
             })
         },
         getTarget(target){
@@ -70,7 +70,7 @@ export default {
                 this.fetchData()
             })
             .catch(err => {
-               Swal.fire('Error', err.response.data.message, 'error'); 
+               Swal.fire('Error', err.response.data?.message, 'error'); 
             })
         },
         formToggle(){

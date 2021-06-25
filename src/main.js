@@ -7,8 +7,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
-// import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'
-// import '@/styles.css';
+
+
+// Vue.use(Swal)
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)

@@ -4,7 +4,7 @@
     <b-col></b-col>
     <b-col>
         <div id="loginPage" class="w-100 p-3 mb-1">
-            <b-form @submit="onSubmit" @reset="onReset">
+            <b-form @submit="onSubmit">
             <b-form-group
                 id="input-group-1"
                 label="Email address:"
@@ -29,7 +29,7 @@
             </b-form-group>
                 <br>
             <b-button type="submit" variant="primary">Login</b-button>
-            <b-button variant="outline-primary">Sign Up New User</b-button>
+            <b-button variant="outline-primary" @click="$emit('registerClick')">Sign Up New User</b-button>
         </div>
     </b-col>
     <b-col></b-col>
@@ -71,13 +71,6 @@
         .catch(err => {
             console.log(err)
         })
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.password = ''
-        this.show = false
       }
     }
   }

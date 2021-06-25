@@ -11,7 +11,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li v-if="isLogin" class="nav-item">
               <a class="nav-link active" aria-current="page" href="#" @click="logout">Logout</a>
             </li>
           </ul>
@@ -22,6 +22,7 @@
 
 <script>
 export default {
+    props: ["isLogin"],
     data() {
         return {
             title: "Kanban Board"

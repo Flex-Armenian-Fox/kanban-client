@@ -1,19 +1,23 @@
 <template>
     <div>
-        <NavBar @checkAuth="checkAuth"></NavBar>
-        <LoginPage v-if="!isLogin" @checkAuth="checkAuth"></LoginPage>
+        <NavBar :isLogin="isLogin" @checkAuth="checkAuth"></NavBar>
+        <LoginPage v-if="!isLogin && !isRegister" @checkAuth="checkAuth" @registerClick="registerClick"></LoginPage>
+        <RegisterPage v-if="isRegister" @checkAuth="checkAuth" @registerClick="registerClick" @backToLoginClick="isRegister = false"></RegisterPage>
         <kanban v-if="isLogin"></kanban>
     </div>
 </template>
 
 <script>
 import LoginPage from "./components/LoginComponent.vue"
+import RegisterPage from "./components/RegisterComponent.vue"
 import NavBar from "./components/NavBar.vue"
 import Kanban from "./views/Kanban.vue"
+
 export default{
     name: "App",
     components: {
         LoginPage,
+        RegisterPage,
         NavBar,
         Kanban
     },
@@ -21,6 +25,7 @@ export default{
         return {
             message: "Kanban Board",
             isLogin: false,
+            isRegister: false
         }
     },
     methods: {
@@ -33,6 +38,10 @@ export default{
                 this.isLogin = false;
             }
         },
+        registerClick(){
+            console.log("XX", this.isRegister)
+            this.isRegister = true
+        }
     },
     created(){
         this.checkAuth();
@@ -131,7 +140,7 @@ body {
   justify-content: space-between;
 }
 
-.fas{
+/* .fas{
   cursor: pointer;
-}   
+}    */
 </style>

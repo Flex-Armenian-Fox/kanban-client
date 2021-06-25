@@ -1,8 +1,16 @@
 <template>
     <section id="kanban" class="kanban">
         <div class="kanban-container bg-light">
-            <KanbanStrip v-for="board in boards" :key="board.id" :board="board" :card="getCardData(board.name)"></KanbanStrip>
-            <!-- <form-data v-show="isModalVisible"/> -->
+            <KanbanStrip 
+            v-for="board in boards" 
+            :key="board.id" 
+            :board="board" 
+            :card="getCardData(board.name)" 
+            @AddCardClick="showAddTask"
+            @EditCardClick="showEditTask"
+            @DeleteCardClick="deleteTask">
+            </KanbanStrip>
+            <form-data v-if="showModal" :taskData="taskData" @close="showModal = false" @taskData="addTask"/>
         </div>
     </section>    
 </template>
@@ -11,6 +19,8 @@
 import KanbanStrip from "../components/KanbanStrip.vue"
 import FormData from "../components/FormData.vue"
 import axios from "axios"
+import Swal from 'sweetalert2'
+
 const baseUrl = "http://localhost:3000"
 
 export default {
@@ -26,7 +36,7 @@ export default {
             {id:3, name: "Development"},
             {id:4, name: "Done"},
         ], 
-        isModalVisible: false,
+        showModal: false,
         title: "Kanban Board",
         tasks: [],
         taskData: {
@@ -62,20 +72,27 @@ export default {
             })
         },
         showAddTask(category){
-            this.isModalVisible = true
             this.taskData.title =  "",
             this.taskData.category = category,
             this.taskData.id = 0
-            console.log(this.taskData)
+            this.showModal = true;
+            console.log("ADDD DATA" , this.taskData)
         },
         showEditTask(data){
             console.log("RUN")
             this.taskData.title = data.title,
             this.taskData.category = data.category,
             this.taskData.id = data.id
+            this.showModal = true;
         },
-        addTask(){
-            console.log(baseUrl)
+        addTask(data){
+            console.log("Data Diterima", data)
+            // return
+            // console.log(baseUrl)
+            this.showModal = false;
+            this.taskData.title = data.title
+            this.taskData.category = data.category
+
             let methodType;
             let urlAxios;
 
@@ -91,7 +108,7 @@ export default {
                 method: methodType,
                 url: urlAxios,
                 headers: {
-                    access_token: token
+                    access_token: localStorage.getItem("access_token")
                 },
                 data: {
                     title: this.taskData.title,
@@ -113,17 +130,17 @@ export default {
                 method: "DELETE",
                 url: baseUrl + "/tasks/" + id,
                 headers: {
-                    access_token: token
+                    access_token:  localStorage.access_token
                 },
             })
             .then(respon => {
                 this.fetchData();
-                // this.taskData = "";
-
                 console.log("Deleted")
             })
             .catch(err => {
-                console.log(err)
+                console.log("X")
+                console.log("ERROR", err)
+                Swal.fire(err.request)
             })
         }
     },

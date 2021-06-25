@@ -1,17 +1,45 @@
 <template>
-  <MainPage>
+  <div>
+    <SignInPage v-if="!isSignIn" @loginId="loginId" @auth="auth"></SignInPage>
+    <MainPage v-if="isSignIn" @signOut="signOut" :userId="userId"></MainPage>
+  </div>
 </template>
 
 <script>
 import MainPage from './views/MainPage.vue';
+import SignInPage from './views/SignInPage.vue';
 
 export default {
   name: 'App',
-  components: {MainPage},
+  components: { MainPage, SignInPage },
   data() {
     return {
       message: 'I love Vue 3000',
+      isSignIn: false,
+      userId: '',
     };
+  },
+  methods: {
+    auth() {
+      if (localStorage.access_token) {
+        console.log('true');
+        this.isSignIn = true;
+      } else {
+        console.log('false');
+        this.isSignIn = false;
+      }
+    },
+    loginId(id) {
+      console.log(id);
+      this.userId = +id;
+    },
+    signOut() {
+      localStorage.clear();
+      this.auth();
+    },
+  },
+  created() {
+    this.auth();
   },
 };
 </script>

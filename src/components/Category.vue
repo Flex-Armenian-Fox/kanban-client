@@ -23,11 +23,24 @@
       </div>
       <!-- tasks go here -->
 
-      <div v-for="(task, i) in categorizedTasks[category]" :key="task.id" class="content" draggable="true" @dragstart="startDrag($event, task.id)">
+      <div
+        v-for="(task, i) in categorizedTasks[category]"
+        :key="task.id"
+        class="content"
+        :draggable="{ true: userId == task.UserId, false: userId != task.UserId }"
+        @dragstart="startDrag($event, task.id)"
+      >
         <div :id="`card-${task.category}-${i}`">
           <div class="flex justify-between items-center">
             <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
-            <select @change="option(task, i)" v-model="selected" name="option" id="option" class="w-4 outline-none bg-transparent cursor-pointer">
+            <select
+              v-if="userId == task.UserId"
+              @change="option(task, i)"
+              v-model="selected"
+              name="option"
+              id="option"
+              class="w-4 outline-none bg-transparent cursor-pointer"
+            >
               <option value=""></option>
               <option value="edit">Edit</option>
               <option value="delete">Delete</option>
@@ -36,7 +49,7 @@
           <p :class="`index-${i}`" class="pb-1">{{ task.title }}</p>
           <div class="content-info">
             <p>{{ task.User.email }}</p>
-            <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
+            <a v-if="userId == task.UserId" @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
@@ -83,7 +96,7 @@
 <script>
 export default {
   name: 'Category',
-  props: ['category'],
+  props: ['category', 'userId'],
   data() {
     return {
       message: 'I love Vue 3000',

@@ -1,7 +1,7 @@
 <template>
   <div>
       <!-- START CARD TASK -->
-            <section v-for="(task, index) in tasks" v-bind:index="index" v-bind:key="task.id" v-bind:category="task.category">
+            
             <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
 
                 <!-- --Due Date + Icon -->
@@ -34,7 +34,7 @@
                     </button>
                 </div>
             </div>
-            </section>
+            
             <!-- END CARD TASK -->
 
   </div>

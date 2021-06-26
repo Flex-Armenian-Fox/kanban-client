@@ -66,7 +66,7 @@ export default {
             })
             .then(tasks => {
                 console.log('INI TASKS ==>', tasks)
-                this.tasks = tasks.data
+                this.tasks = tasks.data.tasks
                 console.log('INI this.tasks ==>', this.tasks)
             })
             .catch(err => {

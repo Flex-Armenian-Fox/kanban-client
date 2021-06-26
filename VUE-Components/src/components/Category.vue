@@ -14,7 +14,8 @@
                 </button>
             </div>
             
-            <!-- CARD COMPONENT goes here -->
+            <!-- TASK COMPONENT goes here -->
+            <TaskComponent v-for="task in tasksCatalog" :key="task.id"></TaskComponent>
 
             <!-- START - ADD NEW BACKLOG -->
             <!-- <section v-show="addNew_backlog">

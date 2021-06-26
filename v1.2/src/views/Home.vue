@@ -2,13 +2,14 @@
     <div>
         <Navbar @LoggedOut="$emit('LoggedOut')" @clickAction="updatePage"></Navbar>
         <section>
-            <div class="columns is-flex-direction-column is-align-items-stretch is-justify-content-center">
-                <Category 
+            <div class="columns is-flex-direction-column is-align-items-stretch is-justify-content-center">                
+                <Category
                     v-if="page === 'home'" 
                     :taskData="tasks"
                     @refetch="fetchData"
                 ></Category>
                 <AddTask @submitted="updatePage" v-else-if="page === 'addTask'"></AddTask>
+                <ProgressBar v-if="isLoading === true"></ProgressBar>
             </div>
         </section>
     </div>
@@ -16,17 +17,19 @@
 
 <script>
 import Category from "../components/Category.vue";
+import ProgressBar from "../components/ProgressBar.vue"
 import Navbar from "../components/Navbar.vue";
 import AddTask from "../components/AddTask.vue";
 import axios from "../utils/server-helper.js";
 
 export default {
     name: "Home",    
-    components: { Category, Navbar, AddTask },
+    components: { Category, Navbar, AddTask, ProgressBar },
     data() {
         return {
             tasks: [],
-            page: "home"
+            page: "home",
+            isLoading: false
         };
     },
     methods: {
@@ -35,6 +38,7 @@ export default {
             if (this.page === 'home') this.fetchData()
         },
         fetchData() {
+            this.isLoading = true
             axios({
                 method: "GET",
                 url: '/tasks',
@@ -43,6 +47,7 @@ export default {
                 }
             })
             .then(({ data:response }) => {
+                this.isLoading = false
                 this.tasks = response.data
             })
             .catch(err => {
@@ -50,7 +55,7 @@ export default {
             })
         }
     },
-    created() {        
+    created() {
         this.fetchData()
     }    
 };

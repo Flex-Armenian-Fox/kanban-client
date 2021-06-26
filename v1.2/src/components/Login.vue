@@ -1,7 +1,7 @@
 <template>
     <!-- START LOGIN -->
-    <div class="column is-half">        
-        <form @submit.prevent="login" class="box">
+    <div class="column is-half box">        
+        <form @submit.prevent="login">
             <div class=" has-text-centered is-size-3 is-family-sans-serif has-text-weight-bold">
                 <p class="subtitle has-text-danger" v-text="loginState.loginMessage"></p>
                 <h1>Login</h1>
@@ -24,25 +24,26 @@
             </div>
             <div class="field is-grouped">
                 <p class="control">
-                    <button type="submit" class="button is-success"> Login </button>
+                    <button type="submit" class="button is-success" v-bind:class="{'is-loading': loginState.submitted}"> Login </button>
                     <button @click.prevent="$emit('registerClick')" class="button"> Register </button>
                 </p>
-            </div>
-            <div class="field is-grouped">
-                <p class="control has-text-centered is-family-sans-serif is-size-6">
-                    --OR--
-                </p>
-            </div>
-            <div class="field is-grouped">
-                <p class="control">
-                    <GoogleLogin 
-                        :params="params"
-                        :renderParams="renderParams"
-                        :onSuccess="googleSignIn"
-                    ></GoogleLogin>
-                </p>
-            </div>
+            </div>            
         </form>
+        <hr>
+        <div class="field">
+            <p class="control">
+                <GoogleLogin 
+                    :params="params"
+                    :onSuccess="googleSignIn"
+                    class="button"
+                >
+                    <span class="icon">
+                        <i class="fab fa-google"></i>
+                    </span>
+                    <span>Continue With Google</span>
+                </GoogleLogin>
+            </p>
+        </div> 
     </div>
     <!-- END LOGIN -->
 </template>
@@ -62,6 +63,7 @@ export default {
             },
             loginState: {
                 loginMessage: "",
+                submitted: false,
                 registerMessage: "",
                 isRegister: false
             },
@@ -97,10 +99,10 @@ export default {
             .catch(err => {
                 const { error } = err.response.data
                 this.emptyForm()
-                this.loginState.loginMessage = error.message
             })
         },
         login() {
+            this.loginState.submitted = true
             axios({
                 method: 'POST',
                 url: '/users/login',
@@ -110,12 +112,14 @@ export default {
                 }
             })
             .then(res => {
+                this.loginState.submitted = false
                 const { data } = res.data
                 localStorage.setItem("access_token", data.access_token)
                 this.emptyForm()
                 this.$emit('LoggedIn', true)
             })
             .catch(err => {
+                this.loginState.submitted = false
                 const { error } = err.response.data
                 this.emptyForm()
                 this.loginState.loginMessage = error.message

@@ -41,7 +41,12 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <a @click="logout()" class="button is-danger">Log Out</a>
+                                <GoogleLogin 
+                                    :params="params" 
+                                    :onSuccess="logout" 
+                                    :logoutButton="true" 
+                                    class="button is-danger"
+                                >Log Out</GoogleLogin>
                             </div>
                         </div>
                     </div>
@@ -52,11 +57,17 @@
 </template>
 
 <script>
+import GoogleLogin from "vue-google-login"
+
 export default {
     name: "Navbar",
+    components: { GoogleLogin },
     data() {
         return {
-            page: "home"
+            page: "home",
+            params: {
+                client_id: '265426479351-kdh0fa6ll05bssj1t6kvaa3of7qhrg8q.apps.googleusercontent.com'
+            }
         }
     },
     methods: {
@@ -64,7 +75,7 @@ export default {
             localStorage.clear()
             this.$emit('LoggedOut')
         },
-    }
+    },
 };
 </script>
 

@@ -9,6 +9,7 @@ const app = new Vue({
         addNew_todo: false,
         addNew_doing: false,
         addNew_done: false,
+        editTask_done: false,
         tasks: [
             {
                 id: 1,

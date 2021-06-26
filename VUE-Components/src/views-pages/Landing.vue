@@ -11,7 +11,7 @@
                     </h2>
                     <p class="mt-2 text-center text-sm text-gray-200">
                     Unregistered?
-                    <a href="#" @click="currentPage = 'register'" id="register-link" class="font-medium text-yellow-500 hover:text-yellow-400">
+                    <a href="#" @click.prevent="currentPage = 'register'" id="register-link" class="font-medium text-yellow-500 hover:text-yellow-400">
                         Click here to register!
                     </a>
                     </p>
@@ -69,7 +69,7 @@
                     </h2>
                     <p class="mt-2 text-center text-sm text-gray-200">
                     Already registered?
-                    <a href="#" @click="currentPage = 'login'" id="login-link" class="font-medium text-indigo-400 hover:text-indigo-500">
+                    <a href="#" @click.prevent="currentPage = 'login'" id="login-link" class="font-medium text-indigo-400 hover:text-indigo-500">
                         Click here to login!
                     </a>
                     </p>
@@ -90,7 +90,7 @@
             
             
                     <div>
-                    <button @click="userRegister" type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button @click.prevent="userRegister" type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                         <!-- Heroicon name: solid/lock-closed -->
                         <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -148,12 +148,11 @@ export default {
                 password: this.registerPassword
             })
             .then(response => {
-                console.log(response)
+                console.log('MASUK THEN - userRegister', response)
                 this.$emit('ubahCurrentPage', 'login')
             })
             .catch(error => {
-                console.log(error)
-
+                console.log('MASUK CATCH - userRegister', error)
             })
         }
     }

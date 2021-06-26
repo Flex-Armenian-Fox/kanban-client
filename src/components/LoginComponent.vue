@@ -30,6 +30,8 @@
                 <br>
             <b-button type="submit" variant="primary">Login</b-button>
             <b-button variant="outline-primary" @click="$emit('registerClick')">Sign Up New User</b-button>
+            <br>
+            <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin>
         </div>
     </b-col>
     <b-col></b-col>
@@ -41,14 +43,29 @@
 
 <script>
   import axios from "axios";
+  import GoogleLogin from 'vue-google-login';
+
+  const baseUrl = "http://localhost:3000"
+
   export default {
+    components: {
+        GoogleLogin
+    },
     data() {
       return {
         form: {
           email: '',
           password: ''
         },
-        show: true
+        show: true,
+        params: {
+            client_id: "310016037294-nimqk0gl58rfh175tjle9vos5k3lupd9.apps.googleusercontent.com"
+        },
+        renderParams: {
+            width: 500,
+            height: 50,
+            longtitle: true
+        }
       }
     },
     methods: {
@@ -57,7 +74,7 @@
 
         axios({
             method: "POST",
-            url: "http://localhost:3000/users/login",
+            url: baseUrl + "/users/login",
             data: {
                 email: this.form.email,
                 password: this.form.password
@@ -71,6 +88,26 @@
         .catch(err => {
             console.log(err)
         })
+      },
+      onSuccess(googleUser) {
+          // console.log(googleUser);
+
+          // // This only gets the user information: id, name, imageUrl and email
+          // console.log(googleUser.getBasicProfile());
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("TOKEN", id_token)
+
+          axios({
+              method: "POST",
+              url: "http://localhost:3000/users/login-google",
+              data: {
+                  token: id_token
+              }
+          })
+          .then(respon => {
+              localStorage.setItem("access_token", respon.data.access_token)
+              this.$emit("checkAuth")
+          })
       }
     }
   }

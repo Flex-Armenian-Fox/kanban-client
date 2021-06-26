@@ -137,10 +137,14 @@ export default {
                 this.fetchData();
                 console.log("Deleted")
             })
-            .catch(err => {
-                console.log("X")
-                console.log("ERROR", err)
-                Swal.fire(err.request)
+            .catch(error => {
+                 Swal.fire({
+                    type: 'warning',
+                    title: error.response.data.message,
+                    message: error.response.data.message,
+                    showConfirmButton: true,
+                    timer: 1500
+                });
             })
         }
     },

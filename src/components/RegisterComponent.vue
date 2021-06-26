@@ -56,7 +56,7 @@
 
         axios({
             method: "POST",
-            url: "http://localhost:3000/users/register",
+            url: "https://kanbanbudi.herokuapp.com/users/register",
             data: {
                 email: this.form.email,
                 password: this.form.password

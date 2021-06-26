@@ -45,7 +45,7 @@
   import axios from "axios";
   import GoogleLogin from 'vue-google-login';
 
-  const baseUrl = "http://localhost:3000"
+  const baseUrl = "https://kanbanbudi.herokuapp.com"
 
   export default {
     components: {
@@ -99,7 +99,7 @@
 
           axios({
               method: "POST",
-              url: "http://localhost:3000/users/login-google",
+              url: baseUrl + "/users/login-google",
               data: {
                   token: id_token
               }

@@ -21,7 +21,7 @@ import FormData from "../components/FormData.vue"
 import axios from "axios"
 import Swal from 'sweetalert2'
 
-const baseUrl = "http://localhost:3000"
+const baseUrl = "https://kanbanbudi.herokuapp.com"
 
 export default {
     name: "KanbanPage",

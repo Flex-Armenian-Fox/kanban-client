@@ -51,6 +51,12 @@
                     </p>
                 </div>
                 <div class="flex items-center justify-center">
+                    <!-- <g-signin-button
+                        :params="googleSignInParams"
+                        @success="onSignInSuccess"
+                        @error="onSignInError">
+                        Sign in with Google
+                    </g-signin-button> -->
                     <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </div>
                 <!-- <a href="#" onclick="signOut();">Sign out</a> -->
@@ -110,6 +116,8 @@
 </template>
 
 <script>
+// import GSignInButton from 'vue-google-signin-button'
+
 const axios = require('axios')
 import logoYellow from '../img/Kanban-LogoYellow-05.png'
 import logoPurple from '../img/Kanban-Logo-04.png'
@@ -124,7 +132,11 @@ export default {
             registerPassword: '',
             currentPage: this.currentPageStatus,
             logoYellow,
-            logoPurple
+            logoPurple,
+            // googleSignInParams: {
+            //     client_id: '54580435784-6ultvvjbokrp8k1dk38ogs3dtdl5rr14.apps.googleusercontent.com'
+            // },
+            // GSignInButton
         }
     },
     methods: {
@@ -164,18 +176,44 @@ export default {
                 headers: {google_access_token}
             })
             .then(response => {
-                console.log('MASUK THEN - googleSignIn', response)
+                console.log('MASUK THEN - userRegister', response)
                 localStorage.setItem('accesstoken', response.accesstoken)
                 this.$emit('ubahCurrentPage', 'homepage')
             })
             .catch(err => {
                 console.log(err)
             })
-        }
-    }
+        },
+        // onSignInSuccess (googleUser) {
+        // let google_access_token = googleUser.getAuthResponse().id_token
+        //     axios({
+        //         method: 'POST',
+        //         url: 'http://localhost:3000/users/googleLogin',
+        //         headers: {google_access_token}
+        //     })
+        //     .then(response => {
+        //         console.log('MASUK THEN - userRegister', response)
+        //         localStorage.setItem('accesstoken', response.accesstoken)
+        //         this.$emit('ubahCurrentPage', 'homepage')
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+        // },
+        // onSignInError (error) {
+        //     console.log('OH TIDAK', error)
+        // }
+    }  
 }
 </script>
 
-<style>
-
+<style scoped>
+/* .g-signin-button {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background-color: #3c82f7;
+  color: #fff;
+  box-shadow: 0 3px 0 #0f69ff;
+} */
 </style>

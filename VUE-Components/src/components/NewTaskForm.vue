@@ -43,12 +43,14 @@
 <script>
 export default {
     name: 'NewTaskForm',
+    props: ['categoryName'],
     data () {
         return {
             newTask: {
                 title: '',
                 description: '',
-                due_date: ''
+                due_date: '',
+                category: this.categoryName
             }
         }
     },

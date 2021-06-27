@@ -2,7 +2,7 @@
   <div>
       <!-- START CARD TASK -->
             
-            <div class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
+            <div v-if="!showEditForm" class="bg-white hover:bg-gray-50 w-60 mx-3 mt-1 mb-3 shadow-md min-w-0 min-h-0 max-h-full rounded-2xl">
 
                 <!-- --Due Date + Icon -->
                 <div class="flex flex-row p-3">
@@ -22,7 +22,7 @@
 
                 <!-- --Edit + Delete Buttons -->
                 <div class="flex flex-row p-3">
-                    <button class="mr-1">
+                    <button @click.prevent="showEditForm = true" class="mr-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hover:text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -35,20 +35,34 @@
                 </div>
             </div>
             
-            <!-- END CARD TASK -->
+    <!-- END CARD TASK -->
+
+    <!-- START - FORMULIR EDIT TASK -->
+        <div v-if="showEditForm">
+            <EditTaskForm
+                :key="taskDetails.id"
+                :taskObjToEdit="taskDetails"
+                :taskCategoryEdit="taskDetails.category"
+                @ubahStatusEditForm="hideEditForm"
+                @confirmEditTask="confirmEditTask">
+            </EditTaskForm>
+        </div>
+     <!-- END - FORMULIR EDIT TASK -->
 
   </div>
 </template>
 
 <script>
 const axios = require('axios')
+import EditTaskForm from './EditTaskForm.vue'
 
 export default {
     name: 'TaskComponent',
     props: ['tasksCatalog', 'taskCategory', 'taskDetails'],
+    components: {EditTaskForm},
     data() {
         return {
-
+            showEditForm: false
         }
     },
     methods: {
@@ -64,29 +78,37 @@ export default {
                 }
             })
             .then(response => {
-                console.log(response)
-                console.log('THEN - Ini ID_STRING ==> ', id_string)
-                console.log('THEN - BEFORE deleted ==> ', this.tasksCatalog)
-
-                // let indexToSplice = 0
-
-                // for (const property in this.tasksCatalog) { // LOOP OBJECT - tasksCatalog
-                //     let result = this.tasksCatalog[property].findIndex(el => el.id === id_string)
-                //     if (result !== -1) {
-                //         indexToSplice = result
-                //         this.tasksCatalog[property].splice(indexToSplice, 1)
-                //     }
-                // }
                 this.$emit('fetchUlangPlis')
             })
             .catch(err => {
                 console.log(err)
-                console.log('CATCH - INI THIS.TASKSCATALOG ==>', this.tasksCatalog)
-                console.log('CATCH - INI THIS.TASKSCATALOG 2 ==>', typeof this.tasksCatalog)
+
             })
-            // let id = +id_string
-            // let newTasks = this.tasks.filter(el => el.id !== id)
-            // this.tasks = newTasks
+        },
+        editTask() {
+            this.$emit('editTask')
+        },
+        hideEditForm(){
+            this.showEditForm = false
+        },
+        confirmEditTask(newData){
+            axios({
+                method: 'PUT',
+                url: 'http://localhost:3000/tasks/' + this.taskDetails.id,
+                data: newData,
+                headers: {
+                    accesstoken: localStorage.getItem('accesstoken')
+                }
+            })
+            .then(response => {
+                console.log('THEN - MASUK confirmEditTask ==> ', response)
+                this.$emit('editTaskFetchData')
+                this.showEditForm = false
+            })
+            .catch(err => {
+                console.log('CATCH - MASUK confirmEditTask ==> ', err)
+                console.log(err)
+            })
         }
     }
 

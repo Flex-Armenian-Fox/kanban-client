@@ -10,7 +10,8 @@
                         :index="index"
                         :category="category"
                         :tasksCatalog="filteredTasks"
-                        @fetchUlangDiKanban="fetchDataUlang">
+                        @fetchUlangDiKanban="fetchDataUlang"
+                        @createTaskFetchData="createTaskFetchData">
                     </CategoryComponent>
                 </div>
                 <!-- END - CATEGORY COMPONENT -->
@@ -68,7 +69,10 @@ export default {
                 console.log(err)
             })
         },
-        fetchDataUlang(){
+        fetchDataUlang() {
+            this.showTasks()
+        },
+        createTaskFetchData() {
             this.showTasks()
         }
     },

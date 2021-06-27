@@ -47,7 +47,7 @@
                 <div id="login-oauth-section">
                     
                     <p class="mt-2 text-center font-bold text-sm text-yellow-500">
-                    Or sign in with one of these accounts:
+                    Or sign in with:
                     </p>
                 </div>
                 <div class="flex items-center justify-center">
@@ -153,6 +153,23 @@ export default {
             })
             .catch(error => {
                 console.log('MASUK CATCH - userRegister', error)
+            })
+        },
+        onSignIn(googleUser) {
+            console.log('MASUK GOOGLE SIGN IN AWAL')
+            let google_access_token = googleUser.getAuthResponse().id_token;
+            axios({
+                method: 'POST',
+                url: 'http://localhost:3000/users/googleLogin',
+                headers: {google_access_token}
+            })
+            .then(response => {
+                console.log('MASUK THEN - googleSignIn', response)
+                localStorage.setItem('accesstoken', response.accesstoken)
+                this.$emit('ubahCurrentPage', 'homepage')
+            })
+            .catch(err => {
+                console.log(err)
             })
         }
     }

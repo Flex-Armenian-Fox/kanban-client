@@ -15,11 +15,17 @@
             </div>
             
             <!-- START - TASK COMPONENT -->
-            <TaskComponent v-for="task in tasksCatalog[category.name]" :key="task.id" :taskDetails="task" :taskCategory="tasksCatalog[category.name]" :tasksCatalog="tasksCatalog" @fetchUlangPlis="fetchDiKanban"></TaskComponent>
+            <TaskComponent v-for="task in tasksCatalog[category.name]"
+                :key="task.id"
+                :taskDetails="task"
+                :taskCategory="tasksCatalog[category.name]"
+                :tasksCatalog="tasksCatalog"
+                @fetchUlangPlis="fetchDiKanban"
+                @editTaskFetchData="fetchDiKanban"></TaskComponent>
             <!-- END - TASK COMPONENT -->
 
             <!-- START - FORMULIR NEW TASK -->
-            <NewTaskForm v-if="showAddTask" @ubahStatusShowForm="showAddTask = false"></NewTaskForm>
+            <NewTaskForm v-if="showAddTask" @ubahStatusShowForm="showAddTask = false" @createNewTask="createNewTask" :categoryName="category.name"></NewTaskForm>
             <!-- END - FORMULIR NEW TASK -->
 
         </div>
@@ -29,8 +35,10 @@
 </template>
 
 <script>
+const axios = require('axios')
 import TaskComponent from './Task.vue'
 import NewTaskForm from './NewTaskForm.vue'
+// import EditTaskForm from './EditTaskForm.vue'
 
 export default {
     name: 'CategoryComponent',
@@ -41,8 +49,7 @@ export default {
     },
     data () {
         return {
-            showAddTask: false,
-            finalTaskToCreate: {}
+            showAddTask: false
         }
     },
     methods: {
@@ -66,10 +73,25 @@ export default {
             this.$emit('fetchUlangDiKanban')
         },
         createNewTask(taskObj) {
-            // taskObj cuma berisi TITLE, DESC, dan DUE_DATE
-            // ?? Tambahkan CATEGORY
-            // assign this.finalTaskToCreate
-            // panggil AXIOS untuk POST, masukkan this.finalTaskToCreate sebagai input datanya
+            // panggil AXIOS untuk POST, masukkan taskObj sebagai input datanya
+            // lalu EMIT ke Parent untuk fetchDataLagi
+            console.log(taskObj)
+            axios({
+                method: 'POST',
+                url: 'http://localhost:3000/tasks/',
+                data: taskObj,
+                headers: {
+                    accesstoken: localStorage.getItem('accesstoken')
+                }
+            })
+            .then(task => {
+                console.log('THEN - MASUK createNewTask ==> ', task)
+                this.$emit('createTaskFetchData')
+                this.showAddTask = false
+            })
+            .catch(err => {
+                console.log('CATCH - MASUK createNewTask ==> ', err)
+            })
         }
     }
 }

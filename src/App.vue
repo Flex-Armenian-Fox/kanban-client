@@ -22,15 +22,12 @@ export default {
   methods: {
     auth() {
       if (localStorage.access_token) {
-        console.log('true');
         this.isSignIn = true;
       } else {
-        console.log('false');
         this.isSignIn = false;
       }
     },
     loginId(id) {
-      console.log(id);
       this.userId = +id;
     },
     signOut() {

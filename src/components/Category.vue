@@ -150,11 +150,11 @@ export default {
         title: this.title,
         category,
       };
-      fetch('http://localhost:3000/tasks', {
+      fetch('https://tolatelo.herokuapp.com/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
         body: JSON.stringify(data),
       })
@@ -168,11 +168,11 @@ export default {
         });
     },
     deleteTask(id) {
-      fetch('http://localhost:3000/tasks/' + id, {
+      fetch('https://tolatelo.herokuapp.com/tasks/' + id, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
       })
         .then((res) => {
@@ -203,11 +203,11 @@ export default {
       const data = {
         category: newCategory,
       };
-      fetch('http://localhost:3000/tasks/' + id, {
+      fetch('https://tolatelo.herokuapp.com/tasks/' + id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
         body: JSON.stringify(data),
       })
@@ -224,11 +224,11 @@ export default {
       const data = {
         title: this.editedTitle,
       };
-      fetch('http://localhost:3000/tasks/' + id, {
+      fetch('https://tolatelo.herokuapp.com/tasks/' + id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
         body: JSON.stringify(data),
       })
@@ -293,11 +293,11 @@ export default {
       const data = {
         category,
       };
-      fetch('http://localhost:3000/tasks/' + movedId, {
+      fetch('https://tolatelo.herokuapp.com/tasks/' + movedId, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
         body: JSON.stringify(data),
       })
@@ -311,16 +311,18 @@ export default {
 
     // connect to server
     fetchData() {
-      fetch('http://localhost:3000/tasks', {
+      fetch('https://tolatelo.herokuapp.com/tasks', {
         method: 'GET',
         headers: {
-          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIzNDcxNjk1fQ.QIvKNH4Dwex7Zl3CHqYEom7aeooHlVb724597C07zhs',
+          'Content-Type': 'application/json',
+          access_token: JSON.parse(localStorage.getItem('access_token')),
         },
       })
         .then((res) => {
           return res.json();
         })
         .then((res) => {
+          // console.log(res);
           this.tasks = res.data;
         })
         .catch((err) => console.log(err));

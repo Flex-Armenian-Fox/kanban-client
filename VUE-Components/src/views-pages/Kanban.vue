@@ -2,19 +2,19 @@
   <div>
     <main>
         <div class="max-w-7xl mx-auto overflow-x-auto py-6 sm:px-6 lg:px-8">
-            <div class="flex flex-row justify-center items-start px-4 py-6 mx-4 min-w-min sm:px-0">
                 
                 <!-- START - CATEGORY COMPONENT -->
-                <div>
+                <div class="flex flex-row justify-center items-start px-4 py-6 mx-4 min-w-min sm:px-0">
                     <CategoryComponent v-for="(category, index) in categories"
-                    :key="category.id"
-                    :index="index"
-                    :category="category"
-                    :tasksCatalog="filteredTasks"></CategoryComponent>
+                        :key="category.id"
+                        :index="index"
+                        :category="category"
+                        :tasksCatalog="filteredTasks"
+                        @fetchUlangDiKanban="fetchDataUlang">
+                    </CategoryComponent>
                 </div>
                 <!-- END - CATEGORY COMPONENT -->
 
-            </div>
         </div>
     </main>
   </div>
@@ -42,12 +42,7 @@ export default {
     computed: {
         filteredTasks() {
             let result = {}
-            // for (let i = 0; i < this.tasks.length; i++) {
-            //     if (result[this.tasks[i].category] === undefined) {
-            //         result[this.tasks[i].category] = []
-            //     }
-            //     result[this.tasks[i].category].push(this.tasks[i])
-            // }
+
             this.tasks.forEach(task => {
                 if (result[task.category] === undefined) {
                     result[task.category] = []
@@ -72,6 +67,9 @@ export default {
             .catch(err => {
                 console.log(err)
             })
+        },
+        fetchDataUlang(){
+            this.showTasks()
         }
     },
     created() {

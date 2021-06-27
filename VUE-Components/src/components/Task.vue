@@ -11,13 +11,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold antialiased tracking-wide">{{ dueDate_formatter(task.due_date) }}</div>
+                    <div class="text-gray-500 text-xs font-semibold antialiased tracking-wide">{{ dateFormatter(taskDetails.due_date) }}</div>
                 </div>
 
                 <!-- --Title + Description -->
                 <div class="flex flex-col">
-                    <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ task.title }}</div>
-                    <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ task.description }}</div>
+                    <div class="text-gray-800 text-base font-bold py-0 px-3 max-h-full antialiased overflow-y-auto">{{ taskDetails.title }}</div>
+                    <div class="text-gray-500 text-xs font-normal py-1 px-3 mb-2 max-h-14 leading-relaxed antialiased overflow-y-auto">{{ taskDetails.description }}</div>
                 </div>
 
                 <!-- --Edit + Delete Buttons -->
@@ -27,7 +27,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                     </button>
-                    <button @click="deleteTask(task.id)">
+                    <button @click.prevent="deleteTask(taskDetails.id)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -45,22 +45,48 @@ const axios = require('axios')
 
 export default {
     name: 'TaskComponent',
+    props: ['tasksCatalog', 'taskCategory', 'taskDetails'],
     data() {
         return {
 
         }
     },
     methods: {
-        dueDate_formatter(date_input) {
-            let array = date_input.toDateString().toUpperCase().split(' ')
-            let result = `${array[2]} ${array[1]} ${array[3]}`
-            return result
+        dateFormatter (input_date) {
+            let dateOnly = (new Date(input_date.slice(0,10))).toDateString().split(' ')
+            let cleanDate = (`${dateOnly[2]} ${dateOnly[1]} ${dateOnly[3]}`).toUpperCase()
+            return cleanDate
         },
         deleteTask(id_string) {
+            axios.delete('http://localhost:3000/tasks/' + id_string, {
+                headers: {
+                    accesstoken: localStorage.getItem('accesstoken')
+                }
+            })
+            .then(response => {
+                console.log(response)
+                console.log('THEN - Ini ID_STRING ==> ', id_string)
+                console.log('THEN - BEFORE deleted ==> ', this.tasksCatalog)
 
-            let id = +id_string
-            let newTasks = this.tasks.filter(el => el.id !== id)
-            this.tasks = newTasks
+                // let indexToSplice = 0
+
+                // for (const property in this.tasksCatalog) { // LOOP OBJECT - tasksCatalog
+                //     let result = this.tasksCatalog[property].findIndex(el => el.id === id_string)
+                //     if (result !== -1) {
+                //         indexToSplice = result
+                //         this.tasksCatalog[property].splice(indexToSplice, 1)
+                //     }
+                // }
+                this.$emit('fetchUlangPlis')
+            })
+            .catch(err => {
+                console.log(err)
+                console.log('CATCH - INI THIS.TASKSCATALOG ==>', this.tasksCatalog)
+                console.log('CATCH - INI THIS.TASKSCATALOG 2 ==>', typeof this.tasksCatalog)
+            })
+            // let id = +id_string
+            // let newTasks = this.tasks.filter(el => el.id !== id)
+            // this.tasks = newTasks
         }
     }
 

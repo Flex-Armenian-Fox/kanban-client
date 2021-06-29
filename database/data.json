@@ -1,0 +1,46 @@
+{
+    "tasks": [
+        {
+            "id": 1,
+            "title": "Bayar invoice",
+            "description": "Air & listrik Juni",
+            "due_date": "2021-06-31",
+            "category": "backlog"
+        },
+        {
+            "id": 2,
+            "title": "Kerjain JS Racer",
+            "description": "2 functions aja",
+            "due_date": "2021-06-21",
+            "category": "todo"
+        },
+        {
+            "id": 3,
+            "title": "Masak nasi",
+            "description": "4 orang",
+            "due_date": "2021-06-22",
+            "category": "doing"
+        },
+        {
+            "id": 4,
+            "title": "Review MVC",
+            "description": "",
+            "due_date": "2021-06-25",
+            "category": "done"
+        },
+        {
+            "id": 5,
+            "title": "Beli obat pel sama kapur barus",
+            "description": "masing masing x2 pak",
+            "due_date": "2021-07-01",
+            "category": "todo"
+        },
+        {
+            "id": 6,
+            "title": "Balikin buku pinjeman",
+            "description": "dee lestari, filosofi stoa, komik doraemon ama kindaichi",
+            "due_date": "2021-06-30",
+            "category": "doing"
+        }
+    ]
+}

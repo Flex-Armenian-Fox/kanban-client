@@ -108,8 +108,29 @@
             </button>
           </div>
         </form>
+        <button
+          class="group
+                relative
+                w-full
+                flex
+                justify-center
+                py-2
+                px-4
+                border border-transparent
+                text-sm
+                font-medium
+                rounded-md
+                bg-indigo-200
+                hover:bg-indigo-300
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          :params="googleSignInParams"
+          @success="onSignInSuccess"
+          @error="onSignInError"
+        >
+          or Sign in with Google
+        </button>
         <!-- <button v-google-signin-button="clientId" class="google-signin-button">Continue with Google</button> -->
-        <div class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn"></div>
+        <!-- <div class="g-signin2" data-longtitle="true" :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError"></div> -->
       </div>
     </div>
 
@@ -242,7 +263,9 @@ export default {
         email: '',
         password: '',
       },
-      clientId: '1051183172531-s8ohs07adecklgfcsdsapel94ifgratg.apps.googleusercontent.com',
+      googleSignInParams: {
+        client_id: '1051183172531-s8ohs07adecklgfcsdsapel94ifgratg.apps.googleusercontent.com',
+      },
     };
   },
   methods: {
@@ -294,29 +317,30 @@ export default {
           console.log(res);
         });
     },
-    OnGoogleAuthSuccess(idToken) {
-      console.log(idToken);
+    onSignInSuccess(googleUser) {
+      let token = googleUser.getAuthResponse().id_token;
+      console.log(token);
       fetch('https://tolatelo.herokuapp.com/google-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify(data),
-        data: {
-          token: idToken,
-        },
+        body: JSON.stringify({ token: token }),
+        // body: {
+        // token: JSON.stringify(token),
+        // },
       })
         .then((res) => {
           return res.json();
         })
         .then((res) => {
+          console.log(res);
           localStorage.setItem('access_token', JSON.stringify(res.access_token));
           this.$emit('auth');
           this.$emit('loginId', JSON.stringify(res.id));
         });
-      // Receive the idToken and make your magic with the backend
     },
-    OnGoogleAuthFail(error) {
+    onSignInError(error) {
       console.log(error);
     },
   },

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.content {
+  @apply bg-gray-50 border rounded-lg px-3 py-2 mt-3;
+}
+
+.content-add {
+  @apply bg-gray-50 border rounded-lg px-3 py-2 mt-3 flex justify-between border border-gray-500 mb-3;
+}
+
+.add-btn {
+  @apply w-full bg-green-400 hover:bg-green-500 rounded text-center focus:outline-none;
+}
+
+.add-input {
+  @apply px-1 mb-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-300;
+}
+
+.content-info {
+  @apply pt-1 text-sm text-gray-500 flex justify-between border-t border-gray-300 items-center;
+}
+
+.card {
+  @apply border rounded-lg shadow-lg px-3 pt-2 overflow-y-auto max-h-screen;
+}
+
+.add {
+  @apply pb-2 text-sm text-gray-500 w-full cursor-text mt-3;
+}

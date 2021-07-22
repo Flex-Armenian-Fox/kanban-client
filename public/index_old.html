@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="tailwind.css" />
+    <title>Tola-Telo</title>
+  </head>
+
+  <body class="text-gray-600 bg-gray-50 font-nunito">
+    <div id="app">
+      <div class="bg-indigo-100 border-b border-gray-200">
+        <nav class="flex justify-between items-center p-1 mx-3">
+          <div>
+            <h1>
+              <a href="/" class="text-2xl font-bold uppercase">Tola-Telo</a>
+            </h1>
+          </div>
+          <ul class="flex justify-center items-baseline">
+            <li>
+              <a href="#">
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="text-gray-700 font-semibold ml-4 border-b-2 border-red-300">
+              <a href="#">
+                <span>Task</span>
+              </a>
+            </li>
+          </ul>
+          <div class="text-lg w-36 text-right">
+            <span class="bg-red-300 px-2 py-0.5 rounded-lg border-red-500"><a href="">Log Out</a></span>
+          </div>
+        </nav>
+      </div>
+
+      <main>
+        <div class="grid grid-cols-4 gap-6 mt-4 mx-4">
+          <div class="container">
+            <div class="bg-gray-300 border-gray-300 card" @drop="onDrop($event, 'backlog')" @dragenter.prevent @dragover.prevent>
+              <div class="flex justify-between">
+                <p class="font-semibold">Backlog</p>
+                <a @click.prevent="addButton('backlog')" v-if="!add.backlog" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <title>Add task</title>
+                  </svg>
+                </a>
+              </div>
+              <!-- tasks go here -->
+
+              <div v-for="(task, i) in tasks.backlog" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
+                    <select
+                      @change="option(task, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- new task -->
+              <div v-if="add.backlog" class="content-add">
+                <form @submit.prevent="addTask('backlog')" class="" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
+                  <button class="add-btn" type="submit">Add</button>
+                </form>
+
+                <a @click.prevent="add.backlog = false" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- add task -->
+              <div @click.prevent="add.backlog = true" v-if="!add.backlog" class="add">
+                <p>Add new task . . .</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="bg-yellow-200 border-yellow-200 card" @drop="onDrop($event, 'todo')" @dragenter.prevent @dragover.prevent>
+              <div class="flex justify-between">
+                <p class="font-semibold">Todo</p>
+                <a @click.prevent="addButton('todo')" v-if="!add.todo" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <title>Add task</title>
+                  </svg>
+                </a>
+              </div>
+              <!-- tasks go here -->
+
+              <div v-for="(task, i) in tasks.todo" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
+                    <select
+                      @change="option(task, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- new task -->
+              <div v-if="add.todo" class="content-add">
+                <form @submit.prevent="addTask('todo')" class="" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
+                  <button class="add-btn" type="submit">Add</button>
+                </form>
+
+                <a @click.prevent="add.todo = false" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- add task -->
+              <div @click.prevent="add.todo = true" v-if="!add.todo" class="add">
+                <p>Add new task . . .</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="bg-blue-300 border-blue-300 card" @drop="onDrop($event, 'doing')" @dragenter.prevent @dragover.prevent>
+              <div class="flex justify-between">
+                <p class="font-semibold">Doing</p>
+                <a @click.prevent="addButton('doing')" v-if="!add.doing" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <title>Add task</title>
+                  </svg>
+                </a>
+              </div>
+              <!-- tasks go here -->
+
+              <div v-for="(task, i) in tasks.doing" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
+                    <select
+                      @change="option(task, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- new task -->
+              <div v-if="add.doing" class="content-add">
+                <form @submit.prevent="addTask('doing')" class="" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
+                  <button class="add-btn" type="submit">Add</button>
+                </form>
+
+                <a @click.prevent="add.doing = false" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- add task -->
+              <div @click.prevent="add.doing = true" v-if="!add.doing" class="add">
+                <p>Add new task . . .</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="bg-green-400 border-green-400 card" @drop="onDrop($event, 'done')" @dragenter.prevent @dragover.prevent>
+              <div class="flex justify-between">
+                <p class="font-semibold">Done</p>
+                <a @click.prevent="addButton('done')" v-if="!add.done" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    <title>Add task</title>
+                  </svg>
+                </a>
+              </div>
+              <!-- tasks go here -->
+
+              <div v-for="(task, i) in tasks.done" class="content" draggable="true" @dragStart="startDrag($event, task, i)">
+                <div :id="`card-${task.category}-${i}`">
+                  <div class="flex justify-between items-center">
+                    <p class="text-xs text-gray-500">{{ task.createdAt }}</p>
+                    <select
+                      @change="option(task, i)"
+                      v-model="selected"
+                      name="option"
+                      id="option"
+                      class="w-4 outline-none bg-transparent cursor-pointer"
+                    >
+                      <option value=""></option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </div>
+                  <p :class="`index-${i}`" class="pb-1">{{task.title}}</p>
+                  <div class="content-info">
+                    <p>{{ task.User.email }}</p>
+                    <a @click.prevent="moveTask(task)" href="" :class="`index-${i}`">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <div :id="`edit-${task.category}-${i}`" class="flex justify-between hidden">
+                  <form @submit.prevent="editTask(task, i)" class="" action="">
+                    <input type="text" class="add-input" autofocus required v-model="editedTitle" />
+                    <button class="add-btn" type="submit">Edit</button>
+                  </form>
+
+                  <a @click.prevent="cancelEdit(task.category, i)" href="">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- new task -->
+              <div v-if="add.done" class="content-add">
+                <form @submit.prevent="addTask('done')" class="" action="">
+                  <input v-model="title" type="text" name="" id="" placeholder="input new task here..." class="add-input" autofocus required />
+                  <button class="add-btn" type="submit">Add</button>
+                </form>
+
+                <a @click.prevent="add.done = false" href="">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </a>
+              </div>
+
+              <!-- add task -->
+              <div @click.prevent="add.done = true" v-if="!add.done" class="add">
+                <p>Add new task . . .</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
